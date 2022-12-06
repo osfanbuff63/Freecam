@@ -1,9 +1,9 @@
 package net.xolt.freecam.mixin;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.client.renderer.ItemInHandRenderer;
-import net.minecraft.client.renderer.MultiBufferSource;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import net.minecraft.client.entity.player.ClientPlayerEntity;
+import net.minecraft.client.renderer.FirstPersonRenderer;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.xolt.freecam.Freecam;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -13,14 +13,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import static net.xolt.freecam.Freecam.MC;
 
-@Mixin(ItemInHandRenderer.class)
-public class ItemInHandRendererMixin {
+@Mixin(FirstPersonRenderer.class)
+public class FirstPersonRendererMixin {
 
     private float tickDelta;
 
     // Makes arm movement depend upon FreeCamera movement rather than player movement.
     @ModifyVariable(method = "renderHandsWithItems", at = @At("HEAD"), argsOnly = true)
-    private LocalPlayer onRenderItem(LocalPlayer player) {
+    private ClientPlayerEntity onRenderItem(ClientPlayerEntity player) {
         if (Freecam.isEnabled()) {
             return Freecam.getFreeCamera();
         }
@@ -28,7 +28,7 @@ public class ItemInHandRendererMixin {
     }
 
     @Inject(method = "renderHandsWithItems", at = @At("HEAD"))
-    private void storeTickDelta(float tickDelta, PoseStack matrices, MultiBufferSource.BufferSource vertexConsumers, LocalPlayer player, int light, CallbackInfo ci) {
+    private void storeTickDelta(float tickDelta, MatrixStack matrices, IRenderTypeBuffer.Impl vertexConsumers, ClientPlayerEntity player, int light, CallbackInfo ci) {
         this.tickDelta = tickDelta;
     }
 

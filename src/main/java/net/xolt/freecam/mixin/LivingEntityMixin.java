@@ -1,6 +1,6 @@
 package net.xolt.freecam.mixin;
 
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.entity.LivingEntity;
 import net.xolt.freecam.Freecam;
 import net.xolt.freecam.config.FreecamConfig;
 import org.spongepowered.asm.mixin.Mixin;

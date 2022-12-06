@@ -1,7 +1,7 @@
 package net.xolt.freecam.mixin;
 
 import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.world.entity.Entity;
+import net.minecraft.entity.Entity;
 import net.xolt.freecam.Freecam;
 import net.xolt.freecam.config.FreecamConfig;
 import org.spongepowered.asm.mixin.Mixin;
@@ -24,7 +24,7 @@ public class GameRendererMixin {
     }
 
     // Makes mouse clicks come from the player rather than the freecam entity when player control is enabled or if interaction mode is set to player.
-    @ModifyVariable(method = "pick", at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/client/Minecraft;getCameraEntity()Lnet/minecraft/world/entity/Entity;"))
+    @ModifyVariable(method = "pick", at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/client/Minecraft;getCameraEntity()Lnet/minecraft/entity/Entity;"))
     private Entity onUpdateTargetedEntity(Entity entity) {
         if (Freecam.isEnabled() && (Freecam.isPlayerControlEnabled() || FreecamConfig.INTERACTION_MODE.get().equals(
             FreecamConfig.InteractionMode.PLAYER))) {

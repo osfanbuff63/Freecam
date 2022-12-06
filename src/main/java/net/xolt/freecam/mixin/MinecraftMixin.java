@@ -1,15 +1,14 @@
 package net.xolt.freecam.mixin;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.player.Input;
-import net.minecraft.client.player.KeyboardInput;
+import net.minecraft.util.MovementInput;
+import net.minecraft.util.MovementInputFromOptions;
 import net.xolt.freecam.Freecam;
 import net.xolt.freecam.config.FreecamConfig;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import static net.xolt.freecam.Freecam.MC;
 
@@ -20,12 +19,12 @@ public class MinecraftMixin {
     @Inject(method = "tick", at = @At("HEAD"))
     private void onTick(CallbackInfo ci) {
         if (Freecam.isEnabled()) {
-            if (MC.player != null && MC.player.input instanceof KeyboardInput && !Freecam.isPlayerControlEnabled()) {
-                Input input = new Input();
+            if (MC.player != null && MC.player.input instanceof MovementInputFromOptions && !Freecam.isPlayerControlEnabled()) {
+                MovementInput input = new MovementInput();
                 input.shiftKeyDown = MC.player.input.shiftKeyDown; // Makes player continue to sneak after freecam is enabled.
                 MC.player.input = input;
             }
-            MC.gameRenderer.setRenderHand(FreecamConfig.SHOW_HAND.get());
+            ((GameRendererAccessor)MC.gameRenderer).setRenderHand(FreecamConfig.SHOW_HAND.get());
         }
     }
 
@@ -54,7 +53,7 @@ public class MinecraftMixin {
     }
 
     // Prevents hotbar keys from changing selected slot when freecam key is held
-    @Inject(method = "handleKeybinds", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/KeyMapping;consumeClick()Z", ordinal = 2), cancellable = true)
+    @Inject(method = "handleKeybinds", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/settings/KeyBinding;consumeClick()Z", ordinal = 2), cancellable = true)
     private void onHandleInputEvents(CallbackInfo ci) {
         if (Freecam.KEY_TOGGLE.isDown()) {
             ci.cancel();

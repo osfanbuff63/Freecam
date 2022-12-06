@@ -1,33 +1,30 @@
 package net.xolt.freecam;
 
-import com.mojang.blaze3d.platform.InputConstants;
-import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.player.Input;
-import net.minecraft.client.player.KeyboardInput;
-import net.minecraft.client.CameraType;
-import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.world.level.ChunkPos;
-import net.minecraftforge.client.settings.KeyConflictContext;
+import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.client.settings.PointOfView;
+import net.minecraft.client.util.InputMappings;
+import net.minecraft.util.MovementInput;
+import net.minecraft.util.MovementInputFromOptions;
+import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraftforge.fml.ExtensionPoint;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fmlclient.ConfigGuiHandler;
 import net.xolt.freecam.config.FreecamConfig;
+import net.xolt.freecam.mixin.GameRendererAccessor;
 import net.xolt.freecam.util.FreeCamera;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.HashMap;
-import java.util.function.BiFunction;
 
 @Mod(Freecam.MOD_ID)
 public class Freecam {
   public static final String MOD_ID = "freecam";
   public static final Minecraft MC = Minecraft.getInstance();
 
-  public static final KeyMapping KEY_TOGGLE = new KeyMapping("key.freecam.toggle", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_F4, "category.freecam.freecam");
-  public static final KeyMapping KEY_PLAYER_CONTROL = new KeyMapping("key.freecam.playerControl", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_UNKNOWN, "category.freecam.freecam");
+  public static final KeyBinding KEY_TOGGLE = new KeyBinding("key.freecam.toggle", InputMappings.Type.KEYSYM, GLFW.GLFW_KEY_F4, "category.freecam.freecam");
+  public static final KeyBinding KEY_PLAYER_CONTROL = new KeyBinding("key.freecam.playerControl", InputMappings.Type.KEYSYM, GLFW.GLFW_KEY_UNKNOWN, "category.freecam.freecam");
 
   private static boolean enabled = false;
   private static boolean persistentCameraEnabled = false;
@@ -40,12 +37,7 @@ public class Freecam {
   public Freecam() {
     ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, FreecamConfig.SPEC, "freecam.toml");
 
-    ModLoadingContext.get().registerExtensionPoint(ConfigGuiHandler.ConfigGuiFactory.class,
-        () -> new ConfigGuiHandler.ConfigGuiFactory(new BiFunction<Minecraft, Screen, Screen>() {
-          @Override public Screen apply(Minecraft minecraft, Screen screen) {
-            return new ConfigScreen(screen);
-          }
-        }));
+    ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.CONFIGGUIFACTORY, () -> (mc, screen) -> new ConfigScreen(screen));
   }
 
   public static void toggle() {
@@ -72,7 +64,7 @@ public class Freecam {
         persistentCameraEnabled = false;
       } else {
         onDisable();
-        persistentCameras.get(activePersistentCamera).input = new Input();
+        persistentCameras.get(activePersistentCamera).input = new MovementInput();
         onEnablePersistentCamera(keyCode);
       }
     } else {
@@ -87,10 +79,10 @@ public class Freecam {
   public static void switchControls() {
     if (isEnabled()) {
       if (playerControlEnabled) {
-        getFreeCamera().input = new KeyboardInput(MC.options);
+        getFreeCamera().input = new MovementInputFromOptions(MC.options);
       } else {
-        MC.player.input = new KeyboardInput(MC.options);
-        getFreeCamera().input = new Input();
+        MC.player.input = new MovementInputFromOptions(MC.options);
+        getFreeCamera().input = new MovementInput();
       }
       playerControlEnabled = !playerControlEnabled;
     }
@@ -102,8 +94,7 @@ public class Freecam {
 
     boolean chunkLoaded = false;
     if (persistentCamera != null) {
-      ChunkPos chunkPos = persistentCamera.chunkPosition();
-      chunkLoaded = MC.level.getChunkSource().hasChunk(chunkPos.x, chunkPos.z);
+      chunkLoaded = MC.level.getChunkSource().hasChunk(persistentCamera.xChunk, persistentCamera.yChunk);
     }
 
     if (persistentCamera == null || !chunkLoaded) {
@@ -112,22 +103,22 @@ public class Freecam {
       persistentCamera.spawn();
     }
 
-    persistentCamera.input = new KeyboardInput(MC.options);
+    persistentCamera.input = new MovementInputFromOptions(MC.options);
     MC.setCameraEntity(persistentCamera);
     activePersistentCamera = keyCode;
 
     if (FreecamConfig.NOTIFY_PERSISTENT.get()) {
-      MC.player.displayClientMessage(new TranslatableComponent("msg.freecam.enablePersistent").append("" + activePersistentCamera % GLFW.GLFW_KEY_0), true);
+      MC.player.displayClientMessage(new TranslationTextComponent("msg.freecam.enablePersistent").append("" + activePersistentCamera % GLFW.GLFW_KEY_0), true);
     }
   }
 
   private static void onDisablePersistentCamera(int keyCode) {
     onDisable();
-    persistentCameras.get(keyCode).input = new Input();
+    persistentCameras.get(keyCode).input = new MovementInput();
 
     if (MC.player != null) {
       if (FreecamConfig.NOTIFY_PERSISTENT.get()) {
-        MC.player.displayClientMessage(new TranslatableComponent("msg.freecam.disablePersistent").append("" + activePersistentCamera % GLFW.GLFW_KEY_0), true);
+        MC.player.displayClientMessage(new TranslationTextComponent("msg.freecam.disablePersistent").append("" + activePersistentCamera % GLFW.GLFW_KEY_0), true);
       }
     }
     activePersistentCamera = null;
@@ -140,7 +131,7 @@ public class Freecam {
     MC.setCameraEntity(freeCamera);
 
     if (FreecamConfig.NOTIFY_FREECAM.get()) {
-      MC.player.displayClientMessage(new TranslatableComponent("msg.freecam.enable"), true);
+      MC.player.displayClientMessage(new TranslationTextComponent("msg.freecam.enable"), true);
     }
   }
 
@@ -151,28 +142,28 @@ public class Freecam {
 
     if (MC.player != null) {
       if (FreecamConfig.NOTIFY_FREECAM.get()) {
-        MC.player.displayClientMessage(new TranslatableComponent("msg.freecam.disable"), true);
+        MC.player.displayClientMessage(new TranslationTextComponent("msg.freecam.disable"), true);
       }
     }
   }
 
   private static void onEnable() {
     MC.smartCull = false;
-    MC.gameRenderer.setRenderHand(FreecamConfig.SHOW_HAND.get());
+    ((GameRendererAccessor)MC.gameRenderer).setRenderHand(FreecamConfig.SHOW_HAND.get());
 
     if (MC.gameRenderer.getMainCamera().isDetached()) {
-      MC.options.setCameraType(CameraType.FIRST_PERSON);
+      MC.options.setCameraType(PointOfView.FIRST_PERSON);
     }
   }
 
   private static void onDisable() {
     MC.smartCull = true;
-    MC.gameRenderer.setRenderHand(true);
+    ((GameRendererAccessor)MC.gameRenderer).setRenderHand(true);
     MC.setCameraEntity(MC.player);
     playerControlEnabled = false;
 
     if (MC.player != null) {
-      MC.player.input = new KeyboardInput(MC.options);
+      MC.player.input = new MovementInputFromOptions(MC.options);
     }
   }
 

@@ -1,26 +1,26 @@
 package net.xolt.freecam.util;
 
 import com.mojang.authlib.GameProfile;
-import net.minecraft.client.multiplayer.ClientPacketListener;
-import net.minecraft.client.player.KeyboardInput;
-import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.core.BlockPos;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.world.effect.MobEffect;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.entity.Pose;
-import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.block.BlockState;
+import net.minecraft.client.entity.player.ClientPlayerEntity;
+import net.minecraft.client.network.play.ClientPlayNetHandler;
+import net.minecraft.entity.Pose;
+import net.minecraft.network.IPacket;
+import net.minecraft.potion.Effect;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.util.MovementInputFromOptions;
+import net.minecraft.util.math.BlockPos;
 import net.xolt.freecam.config.FreecamConfig;
 
 import java.util.UUID;
 
 import static net.xolt.freecam.Freecam.MC;
 
-public class FreeCamera extends LocalPlayer {
+public class FreeCamera extends ClientPlayerEntity {
 
-    private static final ClientPacketListener CONNECTION = new ClientPacketListener(MC, MC.screen, MC.getConnection().getConnection(), new GameProfile(UUID.randomUUID(), "FreeCamera")) {
+    private static final ClientPlayNetHandler CONNECTION = new ClientPlayNetHandler(MC, MC.screen, MC.getConnection().getConnection(), new GameProfile(UUID.randomUUID(), "FreeCamera")) {
         @Override
-        public void send(Packet<?> packet) {
+        public void send(IPacket<?> packet) {
         }
     };
 
@@ -29,12 +29,12 @@ public class FreeCamera extends LocalPlayer {
 
         copyPosition(MC.player);
         super.setPose(MC.player.getPose());
-        xBob = getXRot();
-        yBob = getYRot();
-        xBobO = getXRot(); // Prevents camera from rotating upon entering freecam.
-        yBobO = getYRot();
-        getAbilities().flying = true;
-        input = new KeyboardInput(MC.options);
+        xBob = xRot;
+        yBob = yRot;
+        xBobO = xRot; // Prevents camera from rotating upon entering freecam.
+        yBobO = yRot;
+        abilities.flying = true;
+        input = new MovementInputFromOptions(MC.options);
     }
 
     public void spawn() {
@@ -45,13 +45,13 @@ public class FreeCamera extends LocalPlayer {
 
     public void despawn() {
         if (clientLevel != null && clientLevel.getEntity(getId()) != null) {
-            clientLevel.removeEntity(getId(), RemovalReason.DISCARDED);
+            clientLevel.removeEntity(getId());
         }
     }
 
     // Prevents fall damage sound when FreeCamera touches ground with noClip disabled.
     @Override
-    protected void checkFallDamage(double p_20990_, boolean p_20991_, BlockState p_20992_, BlockPos p_20993_) {
+    protected void checkFallDamage(double p_184231_1_, boolean p_184231_3_, BlockState p_184231_4_, BlockPos p_184231_5_) {
     }
     // Needed for hand swings to be shown in freecam since the player is replaced by FreeCamera in HeldItemRenderer.renderItem()
     @Override
@@ -82,14 +82,12 @@ public class FreeCamera extends LocalPlayer {
         return false;
     }
 
-    @Override
-    public MobEffectInstance getEffect(MobEffect effect) {
+    @Override public EffectInstance getEffect(Effect effect) {
         return MC.player.getEffect(effect);
     }
 
     // Prevents pose from changing when clipping through blocks.
-    @Override
-    public void setPose(Pose pose) {
+    @Override public void setPose(Pose pose) {
         if (pose.equals(Pose.STANDING) || (pose.equals((Pose.CROUCHING)) && !getPose().equals(Pose.STANDING))) {
             super.setPose(pose);
         }
@@ -99,13 +97,13 @@ public class FreeCamera extends LocalPlayer {
     public void aiStep() {
         noPhysics = FreecamConfig.NO_CLIP.get();
         if (FreecamConfig.FLIGHT_MODE.get().equals(FreecamConfig.FlightMode.DEFAULT)) {
-            getAbilities().setFlyingSpeed(0);
+            abilities.setFlyingSpeed(0);
             Motion.doMotion(this, FreecamConfig.HORIZONTAL_SPEED.get(), FreecamConfig.VERTICAL_SPEED.get());
         } else {
-            getAbilities().setFlyingSpeed((float) (FreecamConfig.VERTICAL_SPEED.get() / 10));
+            abilities.setFlyingSpeed((float) (FreecamConfig.VERTICAL_SPEED.get() / 10));
         }
         super.aiStep();
-        getAbilities().flying = true;
+        abilities.flying = true;
         onGround = false;
     }
 }

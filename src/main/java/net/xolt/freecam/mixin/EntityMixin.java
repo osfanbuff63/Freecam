@@ -1,6 +1,6 @@
 package net.xolt.freecam.mixin;
 
-import net.minecraft.world.entity.Entity;
+import net.minecraft.entity.Entity;
 import net.xolt.freecam.Freecam;
 import net.xolt.freecam.config.FreecamConfig;
 import org.spongepowered.asm.mixin.Mixin;
@@ -23,7 +23,7 @@ public class EntityMixin {
     }
 
     // Prevents FreeCamera from pushing/getting pushed by entities.
-    @Inject(method = "push(Lnet/minecraft/world/entity/Entity;)V", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "push(Lnet/minecraft/entity/Entity;)V", at = @At("HEAD"), cancellable = true)
     private void onPushAwayFrom(Entity entity, CallbackInfo ci) {
         if (Freecam.isEnabled() && (entity.equals(Freecam.getFreeCamera()) || this.equals(Freecam.getFreeCamera()))) {
             ci.cancel();
