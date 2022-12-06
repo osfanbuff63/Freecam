@@ -8,8 +8,9 @@ import net.minecraft.client.player.Input;
 import net.minecraft.client.player.KeyboardInput;
 import net.minecraft.client.CameraType;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.level.ChunkPos;
-import net.minecraftforge.client.ConfigScreenHandler;
+import net.minecraftforge.client.ConfigGuiHandler;
 import net.minecraftforge.client.settings.KeyConflictContext;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
@@ -40,8 +41,8 @@ public class Freecam {
   public Freecam() {
     ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, FreecamConfig.SPEC, "freecam.toml");
 
-    ModLoadingContext.get().registerExtensionPoint(ConfigScreenHandler.ConfigScreenFactory.class,
-        () -> new ConfigScreenHandler.ConfigScreenFactory(new BiFunction<Minecraft, Screen, Screen>() {
+    ModLoadingContext.get().registerExtensionPoint(ConfigGuiHandler.ConfigGuiFactory.class,
+        () -> new ConfigGuiHandler.ConfigGuiFactory(new BiFunction<Minecraft, Screen, Screen>() {
           @Override public Screen apply(Minecraft minecraft, Screen screen) {
             return new ConfigScreen(screen);
           }
@@ -117,7 +118,7 @@ public class Freecam {
     activePersistentCamera = keyCode;
 
     if (FreecamConfig.NOTIFY_PERSISTENT.get()) {
-      MC.player.displayClientMessage(Component.translatable("msg.freecam.enablePersistent").append("" + activePersistentCamera % GLFW.GLFW_KEY_0), true);
+      MC.player.displayClientMessage(new TranslatableComponent("msg.freecam.enablePersistent").append("" + activePersistentCamera % GLFW.GLFW_KEY_0), true);
     }
   }
 
@@ -127,7 +128,7 @@ public class Freecam {
 
     if (MC.player != null) {
       if (FreecamConfig.NOTIFY_PERSISTENT.get()) {
-        MC.player.displayClientMessage(Component.translatable("msg.freecam.disablePersistent").append("" + activePersistentCamera % GLFW.GLFW_KEY_0), true);
+        MC.player.displayClientMessage(new TranslatableComponent("msg.freecam.disablePersistent").append("" + activePersistentCamera % GLFW.GLFW_KEY_0), true);
       }
     }
     activePersistentCamera = null;
@@ -140,7 +141,7 @@ public class Freecam {
     MC.setCameraEntity(freeCamera);
 
     if (FreecamConfig.NOTIFY_FREECAM.get()) {
-      MC.player.displayClientMessage(Component.translatable("msg.freecam.enable"), true);
+      MC.player.displayClientMessage(new TranslatableComponent("msg.freecam.enable"), true);
     }
   }
 
@@ -151,7 +152,7 @@ public class Freecam {
 
     if (MC.player != null) {
       if (FreecamConfig.NOTIFY_FREECAM.get()) {
-        MC.player.displayClientMessage(Component.translatable("msg.freecam.disable"), true);
+        MC.player.displayClientMessage(new TranslatableComponent("msg.freecam.disable"), true);
       }
     }
   }

@@ -1,5 +1,6 @@
 package net.xolt.freecam.mixin;
 
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.multiplayer.MultiPlayerGameMode;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.InteractionHand;
@@ -23,7 +24,7 @@ public class MultiPlayerGameModeMixin {
 
     // Prevents interacting with blocks when allowInteract is disabled.
     @Inject(method = "useItemOn", at = @At("HEAD"), cancellable = true)
-    private void onInteractBlock(LocalPlayer player, InteractionHand hand, BlockHitResult hitResult, CallbackInfoReturnable<InteractionResult> cir) {
+    private void onInteractBlock(LocalPlayer player, ClientLevel pLevel, InteractionHand hand, BlockHitResult hitResult, CallbackInfoReturnable<InteractionResult> cir) {
         if (Freecam.isEnabled() && !Freecam.isPlayerControlEnabled() && !FreecamConfig.ALLOW_INTERACT.get()) {
             cir.setReturnValue(InteractionResult.PASS);
         }

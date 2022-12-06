@@ -2,18 +2,25 @@ package net.xolt.freecam.event;
 
 import net.minecraft.client.KeyMapping;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
+import net.minecraftforge.client.ClientRegistry;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.xolt.freecam.Freecam;
 
-import static net.xolt.freecam.Freecam.MC;
+import static net.xolt.freecam.Freecam.*;
 
 public class ClientEvents {
 
   @Mod.EventBusSubscriber(modid = Freecam.MOD_ID, value = Dist.CLIENT)
   public static class ClientForgeEvents {
+
+    @SubscribeEvent
+    public static void clientSetup(FMLClientSetupEvent event) {
+      ClientRegistry.registerKeyBinding(KEY_TOGGLE);
+      ClientRegistry.registerKeyBinding(KEY_PLAYER_CONTROL);
+    }
 
     @SubscribeEvent
     public static void clientTick(TickEvent.ClientTickEvent event) {
@@ -32,16 +39,6 @@ public class ClientEvents {
       while (Freecam.KEY_PLAYER_CONTROL.consumeClick()) {
         Freecam.switchControls();
       }
-    }
-  }
-
-  @Mod.EventBusSubscriber(modid = Freecam.MOD_ID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
-  public static class ClientModBusEvents {
-
-    @SubscribeEvent
-    public static void onKeyRegister(RegisterKeyMappingsEvent event) {
-      event.register(Freecam.KEY_TOGGLE);
-      event.register(Freecam.KEY_PLAYER_CONTROL);
     }
   }
 }
