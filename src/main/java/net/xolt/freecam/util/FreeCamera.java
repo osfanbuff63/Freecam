@@ -18,7 +18,7 @@ import static net.xolt.freecam.Freecam.MC;
 
 public class FreeCamera extends LocalPlayer {
 
-    private static final ClientPacketListener CONNECTION = new ClientPacketListener(MC, MC.screen, MC.getConnection().getConnection(), new GameProfile(UUID.randomUUID(), "FreeCamera"), MC.createTelemetryManager()) {
+    private static final ClientPacketListener CONNECTION = new ClientPacketListener(MC, MC.screen, MC.getConnection().getConnection(), new GameProfile(UUID.randomUUID(), "FreeCamera")) {
         @Override
         public void send(Packet<?> packet) {
         }

@@ -7,11 +7,10 @@ import net.minecraft.client.gui.components.CycleButton;
 import net.minecraft.client.gui.components.TooltipAccessor;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.CommonComponents;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.util.FormattedCharSequence;
-import net.minecraftforge.client.gui.widget.ForgeSlider;
 import net.xolt.freecam.config.FreecamConfig;
+import net.xolt.freecam.util.TooltipSlider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -161,18 +160,5 @@ public class ConfigScreen extends Screen {
 
   @Override
   public void removed() {
-  }
-
-  private static class TooltipSlider extends ForgeSlider implements TooltipAccessor {
-    private List<FormattedCharSequence> tooltip;
-
-    public TooltipSlider(int x, int y, int width, int height, Component prefix, Component suffix, List<FormattedCharSequence> tooltip, double minValue, double maxValue, double currentValue, double stepSize, int precision, boolean drawString) {
-      super(x, y, width, height, prefix, suffix, minValue, maxValue, currentValue, stepSize, precision, drawString);
-      this.tooltip = tooltip;
-    }
-
-    @Override public List<FormattedCharSequence> getTooltip() {
-      return tooltip;
-    }
   }
 }
