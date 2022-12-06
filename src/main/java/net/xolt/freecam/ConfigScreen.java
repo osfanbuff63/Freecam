@@ -1,14 +1,21 @@
 package net.xolt.freecam;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.widget.OptionSlider;
+import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.client.gui.widget.button.OptionButton;
 import net.minecraft.client.gui.widget.list.OptionsRowList;
 import net.minecraft.client.settings.BooleanOption;
 import net.minecraft.client.settings.IteratableOption;
 import net.minecraft.client.settings.SliderPercentageOption;
 import net.minecraft.util.text.StringTextComponent;
 import net.xolt.freecam.config.FreecamConfig;
+
+import java.awt.font.FontRenderContext;
+import java.util.Optional;
 
 import static net.xolt.freecam.Freecam.MC;
 
@@ -159,6 +166,14 @@ public class ConfigScreen extends Screen {
   public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
     this.renderBackground(matrixStack);
     this.optionsRowList.render(matrixStack, mouseX, mouseY, partialTicks);
+    Optional<Widget> hoveredButton = optionsRowList.getMouseOver(mouseX, mouseY);
+    if (hoveredButton.isPresent()) {
+      if (hoveredButton.get() instanceof OptionButton) {
+        renderToolTip(matrixStack, ((OptionButton)hoveredButton.get()).getTooltip().get(), mouseX, mouseY, null);
+      } else if (hoveredButton.get() instanceof OptionSlider) {
+        renderToolTip(matrixStack, ((OptionSlider)hoveredButton.get()).getTooltip().get(), mouseX, mouseY, null);
+      }
+    }
     drawCenteredString(matrixStack, this.font, this.title.getString(),
         this.width / 2, TITLE_HEIGHT, 0xFFFFFF);
     super.render(matrixStack, mouseX, mouseY, partialTicks);
