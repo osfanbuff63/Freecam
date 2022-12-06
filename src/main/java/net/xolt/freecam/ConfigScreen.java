@@ -1,7 +1,6 @@
 package net.xolt.freecam;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.OptionInstance;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.CycleButton;
@@ -9,12 +8,8 @@ import net.minecraft.client.gui.components.TooltipAccessor;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Style;
 import net.minecraft.util.FormattedCharSequence;
-import net.minecraft.world.inventory.tooltip.TooltipComponent;
-import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.gui.widget.ForgeSlider;
-import net.minecraftforge.server.command.TextComponentHelper;
 import net.xolt.freecam.config.FreecamConfig;
 
 import java.util.ArrayList;
