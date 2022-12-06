@@ -1,18 +1,18 @@
-package net.xolt.freecam.mixins;
+package net.xolt.freecam.mixin;
 
-import net.minecraft.network.ClientConnection;
+import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.xolt.freecam.Freecam;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(ClientConnection.class)
-public class ClientConnectionMixin {
+@Mixin(ClientPacketListener.class)
+public class ClientPacketListenerMixin {
 
-    // Disables freecam if the player disconnects.
-    @Inject(method = "handleDisconnection", at = @At("HEAD"))
-    private void onHandleDisconnection(CallbackInfo ci) {
+    // Disables freecam when the player respawns/switches dimensions.
+    @Inject(method = "handleRespawn", at = @At("HEAD"))
+    private void onPlayerRespawn(CallbackInfo ci) {
         if (Freecam.isEnabled()) {
             Freecam.toggle();
         }

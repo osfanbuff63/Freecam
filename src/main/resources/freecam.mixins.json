@@ -1,21 +1,24 @@
 {
   "required": true,
-  "package": "net.xolt.freecam.mixins",
+  "package": "net.xolt.freecam.mixin",
   "compatibilityLevel": "JAVA_17",
+  "refmap": "freecam.refmap.json",
+  "mixins": [
+  ],
   "client": [
-    "ClientConnectionMixin",
-    "ClientPlayerEntityMixin",
-    "ClientPlayerInteractionManagerMixin",
-    "ClientPlayNetworkHandlerMixin",
+    "ClientPacketListenerMixin",
+    "ConnectionMixin",
     "EntityMixin",
     "EntityRenderDispatcherMixin",
-    "GameOptionsMixin",
     "GameRendererMixin",
-    "HeldItemRendererMixin",
-    "InGameHudMixin",
+    "GuiMixin",
+    "ItemInHandRendererMixin",
+    "LevelRendererMixin",
     "LivingEntityMixin",
-    "MinecraftClientMixin",
-    "WorldRendererMixin"
+    "LocalPlayerMixin",
+    "MinecraftMixin",
+    "MultiPlayerGameModeMixin",
+    "OptionsMixin"
   ],
   "injectors": {
     "defaultRequire": 1

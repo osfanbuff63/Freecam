@@ -1,7 +1,7 @@
-package net.xolt.freecam.mixins;
+package net.xolt.freecam.mixin;
 
-import net.minecraft.client.gui.hud.InGameHud;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.world.entity.player.Player;
 import net.xolt.freecam.Freecam;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -10,12 +10,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import static net.xolt.freecam.Freecam.MC;
 
-@Mixin(InGameHud.class)
-public class InGameHudMixin {
+@Mixin(Gui.class)
+public class GuiMixin {
 
     // Makes HUD correspond to the player rather than the FreeCamera.
     @Inject(method = "getCameraPlayer", at = @At("HEAD"), cancellable = true)
-    private void onGetCameraPlayer(CallbackInfoReturnable<PlayerEntity> cir) {
+    private void onGetCameraPlayer(CallbackInfoReturnable<Player> cir) {
         if (Freecam.isEnabled()) {
             cir.setReturnValue(MC.player);
         }
