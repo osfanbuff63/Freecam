@@ -66,7 +66,7 @@ public class ConfigScreen extends Screen {
         0.0, 10.0, 0.1F,
         unused -> FreecamConfig.HORIZONTAL_SPEED.get(),
         (unused, newValue) -> {
-          if (Math.abs((Math.round(newValue * 10.0) / 10.0) - FreecamConfig.HORIZONTAL_SPEED.get()) >= 0.1) {
+          if (Math.abs((Math.round(newValue * 1000.0) / 1000.0) - FreecamConfig.HORIZONTAL_SPEED.get()) >= 0.095) {
             FreecamConfig.HORIZONTAL_SPEED.set(Math.round(newValue * 10.0) / 10.0);
           }
         },
@@ -80,7 +80,7 @@ public class ConfigScreen extends Screen {
         0.0, 10.0, 0.1F,
         unused -> FreecamConfig.VERTICAL_SPEED.get(),
         (unused, newValue) -> {
-          if (Math.abs((Math.round(newValue * 10.0) / 10.0) - FreecamConfig.VERTICAL_SPEED.get()) >= 0.1) {
+          if (Math.abs((Math.round(newValue * 1000.0) / 1000.0) - FreecamConfig.VERTICAL_SPEED.get()) >= 0.095) {
             FreecamConfig.VERTICAL_SPEED.set(Math.round(newValue * 10.0) / 10.0);
           }
         },
