@@ -20,7 +20,7 @@ import java.util.HashMap;
 
 @Mod(Freecam.MOD_ID)
 public class Freecam {
-  public static final String MOD_ID = "freecam";
+  public static final String MOD_ID = "freecam-forge";
   public static final Minecraft MC = Minecraft.getInstance();
 
   public static final KeyBinding KEY_TOGGLE = new KeyBinding("key.freecam.toggle", InputMappings.Type.KEYSYM, GLFW.GLFW_KEY_F4, "category.freecam.freecam");
