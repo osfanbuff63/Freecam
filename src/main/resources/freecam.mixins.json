@@ -3,6 +3,7 @@
   "package": "net.xolt.freecam.mixin",
   "compatibilityLevel": "JAVA_16",
   "refmap": "freecam.refmap.json",
+  "minVersion": "0.8",
   "mixins": [
   ],
   "client": [
