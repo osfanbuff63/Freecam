@@ -23,7 +23,7 @@ import java.util.function.BiFunction;
 
 @Mod(Freecam.MOD_ID)
 public class Freecam {
-  public static final String MOD_ID = "freecam";
+  public static final String MOD_ID = "freecam-forge";
   public static final Minecraft MC = Minecraft.getInstance();
 
   public static final KeyMapping KEY_TOGGLE = new KeyMapping("key.freecam.toggle", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_F4, "category.freecam.freecam");
