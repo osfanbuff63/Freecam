@@ -65,7 +65,11 @@ public class ConfigScreen extends Screen {
         "Horizontal Speed",
         0.0, 10.0, 0.1F,
         unused -> FreecamConfig.HORIZONTAL_SPEED.get(),
-        (unused, newValue) -> FreecamConfig.HORIZONTAL_SPEED.set(Math.round(newValue * 10.0) / 10.0),
+        (unused, newValue) -> {
+          if (Math.abs((Math.round(newValue * 10.0) / 10.0) - FreecamConfig.HORIZONTAL_SPEED.get()) >= 0.1) {
+            FreecamConfig.HORIZONTAL_SPEED.set(Math.round(newValue * 10.0) / 10.0);
+          }
+        },
         (gs, option) -> new StringTextComponent("Horizontal Speed: " + option.get(gs))
     );
     horizontalSpeed.setTooltip(MC.font.split(new StringTextComponent("The horizontal speed of freecam."), 200));
@@ -75,7 +79,11 @@ public class ConfigScreen extends Screen {
         "Vertical Speed",
         0.0, 10.0, 0.1F,
         unused -> FreecamConfig.VERTICAL_SPEED.get(),
-        (unused, newValue) -> FreecamConfig.VERTICAL_SPEED.set(Math.round(newValue * 10.0) / 10.0),
+        (unused, newValue) -> {
+          if (Math.abs((Math.round(newValue * 10.0) / 10.0) - FreecamConfig.VERTICAL_SPEED.get()) >= 0.1) {
+            FreecamConfig.VERTICAL_SPEED.set(Math.round(newValue * 10.0) / 10.0);
+          }
+        },
         (gs, option) -> new StringTextComponent("Vertical Speed: " + option.get(gs))
     );
     verticalSpeed.setTooltip(MC.font.split(new StringTextComponent("The vertical speed of freecam."), 200));
