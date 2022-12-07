@@ -66,14 +66,14 @@ public class FreecamConfig {
     CREATIVE("Creative"),
     DEFAULT("Default");
 
-    private final String name;
+    private final String key;
 
-    FlightMode(String name) {
-      this.name = name;
+    FlightMode(String key) {
+      this.key = key;
     }
 
     public String getKey() {
-      return name;
+      return key;
     }
   }
 
@@ -81,14 +81,14 @@ public class FreecamConfig {
     CAMERA("Camera"),
     PLAYER("Player");
 
-    private final String name;
+    private final String key;
 
     InteractionMode(String name) {
-      this.name = name;
+      this.key = name;
     }
 
     public String getKey() {
-      return name;
+      return key;
     }
   }
 }

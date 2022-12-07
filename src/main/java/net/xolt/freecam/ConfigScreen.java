@@ -1,178 +1,175 @@
 package net.xolt.freecam;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.gui.components.AbstractWidget;
+import net.minecraft.client.CycleOption;
+import net.minecraft.client.ProgressOption;
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.gui.components.CycleButton;
-import net.minecraft.client.gui.components.TooltipAccessor;
+import net.minecraft.client.gui.components.OptionsList;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.CommonComponents;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.util.FormattedCharSequence;
-import net.minecraftforge.client.gui.widget.ForgeSlider;
 import net.xolt.freecam.config.FreecamConfig;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import static net.minecraft.client.gui.screens.OptionsSubScreen.tooltipAt;
 import static net.xolt.freecam.Freecam.MC;
 
 public class ConfigScreen extends Screen {
-  private static final int buttonWidth = 150;
-  private static final int buttonHeight = 20;
-  private static final int buttonSpacing = 4;
+  private static final int TITLE_HEIGHT = 8;
+  private static final int OPTIONS_LIST_TOP_HEIGHT = 24;
+  private static final int OPTIONS_LIST_BOTTOM_OFFSET = 32;
+  private static final int OPTIONS_LIST_ITEM_HEIGHT = 25;
+  private static final int BUTTON_WIDTH = 150;
+  private static final int BUTTON_HEIGHT = 20;
+  private static final int DONE_BUTTON_TOP_OFFSET = 26;
 
-  private final ArrayList<AbstractWidget> buttons = new ArrayList<>();
   private final Screen previous;
 
+  private OptionsList optionsList;
+
   public ConfigScreen(Screen previous) {
-    super(new TextComponent("Freecam"));
+    super(new TranslatableComponent("text.freecam.configScreen.title"));
     this.previous = previous;
   }
 
   @Override
   protected void init() {
-    buttons.add(CycleButton.builder((FreecamConfig.FlightMode value) -> new TextComponent(
-        switch (value) {
-          case DEFAULT -> "Default";
-          case CREATIVE -> "Creative";
-        }))
-        .withTooltip((value) -> MC.font.split(new TextComponent("The type of flight used by freecam."), 200))
-        .withValues(FreecamConfig.FlightMode.DEFAULT, FreecamConfig.FlightMode.CREATIVE)
-        .withInitialValue((FreecamConfig.FlightMode) FreecamConfig.FLIGHT_MODE.get())
-        .create(this.width / 2 - buttonWidth - buttonSpacing / 2, this.height / 6, buttonWidth, buttonHeight,
-            new TextComponent("Flight Mode"), (button, value) -> FreecamConfig.FLIGHT_MODE.set(value)));
+    this.optionsList = new OptionsList(
+        this.minecraft, this.width, this.height,
+        OPTIONS_LIST_TOP_HEIGHT,
+        this.height - OPTIONS_LIST_BOTTOM_OFFSET,
+        OPTIONS_LIST_ITEM_HEIGHT
+    );
 
-    this.addRenderableWidget(buttons.get(0));
+    CycleOption<FreecamConfig.FlightMode> flightMode = CycleOption.create(
+        "Flight Mode",
+        FreecamConfig.FlightMode.values(),
+        (option) -> new TextComponent(option.getKey()),
+        (option) -> (FreecamConfig.FlightMode)FreecamConfig.FLIGHT_MODE.get(),
+        (pOptions, pOption, pValue) -> FreecamConfig.FLIGHT_MODE.set(pValue)
+    );
+    flightMode.setTooltip((mc) -> (value) -> MC.font.split(new TextComponent("The type of flight used by freecam."), 200));
+    this.optionsList.addBig(flightMode);
 
-    buttons.add(CycleButton.builder((FreecamConfig.InteractionMode value) -> new TextComponent(
-        switch (value) {
-          case CAMERA -> "Camera";
-          case PLAYER -> "Player";
-        }))
-        .withTooltip((value) -> MC.font.split(new TextComponent("The source of block/entity interactions."), 200))
-        .withValues(FreecamConfig.InteractionMode.CAMERA, FreecamConfig.InteractionMode.PLAYER)
-        .withInitialValue((FreecamConfig.InteractionMode) FreecamConfig.INTERACTION_MODE.get())
-        .create(this.width / 2 + buttonSpacing / 2, this.height / 6, buttonWidth, buttonHeight,
-            new TextComponent("Interaction Mode"), (button, value) -> FreecamConfig.INTERACTION_MODE.set(value)));
+    CycleOption<FreecamConfig.InteractionMode> interactionMode = CycleOption.create(
+        "Interaction Mode",
+        FreecamConfig.InteractionMode.values(),
+        (option) -> new TextComponent(option.getKey()),
+        (option) -> (FreecamConfig.InteractionMode)FreecamConfig.INTERACTION_MODE.get(),
+        (pOptions, pOption, pValue) -> FreecamConfig.INTERACTION_MODE.set(pValue)
+    );
+    interactionMode.setTooltip((mc) -> (value) -> MC.font.split(new TextComponent("The source of block/entity interactions."), 200));
+    this.optionsList.addBig(interactionMode);
 
-    this.addRenderableWidget(buttons.get(1));
+    ProgressOption horizontalSpeed = new ProgressOption(
+        "Horizontal Speed",
+        0.0,
+        10.0,
+        0.1F,
+        (option) -> FreecamConfig.HORIZONTAL_SPEED.get(),
+        (option, value) -> FreecamConfig.HORIZONTAL_SPEED.set(Math.round(value * 10.0) / 10.0),
+        (option, pOption) -> new TextComponent("Horizontal Speed: " + FreecamConfig.HORIZONTAL_SPEED.get()),
+        (mc) -> MC.font.split(new TextComponent("The horizontal speed of freecam."), 200)
+    );
+    this.optionsList.addBig(horizontalSpeed);
 
-    List<FormattedCharSequence> horizontalTooltip = MC.font.split(new TextComponent("The horizontal speed of freecam."), 200);
-    buttons.add(new TooltipSlider(this.width / 2 - buttonWidth - buttonSpacing / 2, this.height / 6 + buttonHeight + buttonSpacing, buttonWidth, buttonHeight, new TextComponent("Horizontal Speed: "), new TextComponent(""), horizontalTooltip, 0, 10, FreecamConfig.HORIZONTAL_SPEED.get(), 0.1, 1, true) {
-      @Override protected void applyValue() {
-        FreecamConfig.HORIZONTAL_SPEED.set(getValue());
-      }
-    });
+    ProgressOption verticalSpeed = new ProgressOption(
+        "Horizontal Speed",
+        0.0,
+        10.0,
+        0.1F,
+        (option) -> FreecamConfig.VERTICAL_SPEED.get(),
+        (option, value) -> FreecamConfig.VERTICAL_SPEED.set(Math.round(value * 10.0) / 10.0),
+        (option, pOption) -> new TextComponent("Vertical Speed: " + FreecamConfig.VERTICAL_SPEED.get()),
+        (mc) -> MC.font.split(new TextComponent("The vertical speed of freecam."), 200)
+    );
+    this.optionsList.addBig(verticalSpeed);
 
-    this.addRenderableWidget(buttons.get(2));
+    CycleOption<Boolean> noClip = CycleOption.createOnOff(
+        "No Clip",
+        (option) -> FreecamConfig.NO_CLIP.get(),
+        (pOptions, pOption, pValue) -> FreecamConfig.NO_CLIP.set(pValue)
+    );
+    noClip.setTooltip((mc) -> (value) -> MC.font.split(new TextComponent("Whether you can travel through blocks in freecam."), 200));
+    this.optionsList.addBig(noClip);
 
-    List<FormattedCharSequence> verticalTooltip = MC.font.split(new TextComponent("The vertical speed of freecam."), 200);
-    buttons.add(new TooltipSlider(this.width / 2 + buttonSpacing / 2, this.height / 6 + buttonHeight + buttonSpacing, buttonWidth, buttonHeight, new TextComponent("Vertical Speed: "), new TextComponent(""), verticalTooltip, 0, 10, FreecamConfig.VERTICAL_SPEED.get(), 0.1, 1, true) {
-      @Override protected void applyValue() {
-        FreecamConfig.VERTICAL_SPEED.set(getValue());
-      }
-    });
+    CycleOption<Boolean> disableOnDamage = CycleOption.createOnOff(
+        "Disable on Damage",
+        (option) -> FreecamConfig.DISABLE_ON_DAMAGE.get(),
+        (pOptions, pOption, pValue) -> FreecamConfig.DISABLE_ON_DAMAGE.set(pValue)
+    );
+    disableOnDamage.setTooltip((mc) -> (value) -> MC.font.split(new TextComponent("Disables freecam when damage is received."), 200));
+    this.optionsList.addBig(disableOnDamage);
 
-    this.addRenderableWidget(buttons.get(3));
+    CycleOption<Boolean> freezePlayer = CycleOption.createOnOff(
+        "Freeze Player",
+        (option) -> FreecamConfig.FREEZE_PLAYER.get(),
+        (pOptions, pOption, pValue) -> FreecamConfig.FREEZE_PLAYER.set(pValue)
+    );
+    freezePlayer.setTooltip((mc) -> (value) -> MC.font.split(new TextComponent("Prevents player movement while freecam is active.\n\u00A7cWARNING: Multiplayer usage not advised."), 200));
+    this.optionsList.addBig(freezePlayer);
 
-    buttons.add(CycleButton.onOffBuilder(FreecamConfig.NO_CLIP.get())
-        .withTooltip((value) -> MC.font.split(new TextComponent("Whether you can travel through blocks in freecam."), 200))
-        .create(this.width / 2 - buttonWidth - buttonSpacing / 2, this.height / 6 + (buttonHeight + buttonSpacing) * 2, buttonWidth, buttonHeight,
-            new TextComponent("No Clip"), (button, value) -> FreecamConfig.NO_CLIP.set(value)));
+    CycleOption<Boolean> allowInteract = CycleOption.createOnOff(
+        "Allow Interaction",
+        (option) -> FreecamConfig.ALLOW_INTERACT.get(),
+        (pOptions, pOption, pValue) -> FreecamConfig.ALLOW_INTERACT.set(pValue)
+    );
+    allowInteract.setTooltip((mc) -> (value) -> MC.font.split(new TextComponent("Whether you can interact with blocks/entities in freecam.\n\u00A7cWARNING: Multiplayer usage not advised."), 200));
+    this.optionsList.addBig(allowInteract);
 
-    this.addRenderableWidget(buttons.get(4));
+    CycleOption<Boolean> showPlayer = CycleOption.createOnOff(
+        "Show Player",
+        (option) -> FreecamConfig.SHOW_PLAYER.get(),
+        (pOptions, pOption, pValue) -> FreecamConfig.SHOW_PLAYER.set(pValue)
+    );
+    showPlayer.setTooltip((mc) -> (value) -> MC.font.split(new TextComponent("Shows your player in its original position."), 200));
+    this.optionsList.addBig(showPlayer);
 
-    buttons.add(CycleButton.onOffBuilder(FreecamConfig.DISABLE_ON_DAMAGE.get())
-        .withTooltip((value) -> MC.font.split(new TextComponent("Disables freecam when damage is received."), 200))
-        .create(this.width / 2 + buttonSpacing / 2, this.height / 6 + (buttonHeight + buttonSpacing) * 2, buttonWidth, buttonHeight,
-            new TextComponent("Disable on Damage"), (button, value) -> FreecamConfig.DISABLE_ON_DAMAGE.set(value)));
+    CycleOption<Boolean> showHand = CycleOption.createOnOff(
+        "Show Hand",
+        (option) -> FreecamConfig.SHOW_HAND.get(),
+        (pOptions, pOption, pValue) -> FreecamConfig.SHOW_HAND.set(pValue)
+    );
+    showHand.setTooltip((mc) -> (value) -> MC.font.split(new TextComponent("Whether you can see your hand in freecam."), 200));
+    this.optionsList.addBig(showHand);
 
-    this.addRenderableWidget(buttons.get(5));
+    CycleOption<Boolean> notifyFreecam = CycleOption.createOnOff(
+        "Freecam Notifications",
+        (option) -> FreecamConfig.NOTIFY_FREECAM.get(),
+        (pOptions, pOption, pValue) -> FreecamConfig.NOTIFY_FREECAM.set(pValue)
+    );
+    notifyFreecam.setTooltip((mc) -> (value) -> MC.font.split(new TextComponent("Notifies you when entering/exiting freecam."), 200));
+    this.optionsList.addBig(notifyFreecam);
 
-    buttons.add(CycleButton.onOffBuilder(FreecamConfig.FREEZE_PLAYER.get())
-        .withTooltip((value) -> MC.font.split(new TextComponent("""
-            Prevents player movement while freecam is active.
-            \u00A7cWARNING: Multiplayer usage not advised."""), 200))
-        .create(this.width / 2 + buttonSpacing / 2, this.height / 6 + (buttonHeight + buttonSpacing) * 3, buttonWidth, buttonHeight,
-            new TextComponent("Freeze Player"), (button, value) -> FreecamConfig.FREEZE_PLAYER.set(value)));
+    CycleOption<Boolean> notifyPersistent = CycleOption.createOnOff(
+        "Tripod Notifications",
+        (option) -> FreecamConfig.NOTIFY_PERSISTENT.get(),
+        (pOptions, pOption, pValue) -> FreecamConfig.NOTIFY_PERSISTENT.set(pValue)
+    );
+    notifyPersistent.setTooltip((mc) -> (value) -> MC.font.split(new TextComponent("Notifies you when entering/exiting tripod cameras."), 200));
+    this.optionsList.addBig(notifyPersistent);
 
-    this.addRenderableWidget(buttons.get(6));
-
-    buttons.add(CycleButton.onOffBuilder(FreecamConfig.ALLOW_INTERACT.get())
-        .withTooltip((value) -> MC.font.split(new TextComponent("""
-            Whether you can interact with blocks/entities in freecam.
-            \u00A7cWARNING: Multiplayer usage not advised."""), 200))
-        .create(this.width / 2 - buttonWidth - buttonSpacing / 2, this.height / 6 + (buttonHeight + buttonSpacing) * 3, buttonWidth, buttonHeight,
-            new TextComponent("Allow Interaction"), (button, value) -> FreecamConfig.ALLOW_INTERACT.set(value)));
-
-    this.addRenderableWidget(buttons.get(7));
-
-    buttons.add(CycleButton.onOffBuilder(FreecamConfig.SHOW_PLAYER.get())
-        .withTooltip((value) -> MC.font.split(new TextComponent("Shows your player in its original position."), 200))
-        .create(this.width / 2 - buttonWidth - buttonSpacing / 2, this.height / 6 + (buttonHeight + buttonSpacing) * 4, buttonWidth, buttonHeight,
-            new TextComponent("Show Player"), (button, value) -> FreecamConfig.SHOW_PLAYER.set(value)));
-
-    this.addRenderableWidget(buttons.get(8));
-
-    buttons.add(CycleButton.onOffBuilder(FreecamConfig.SHOW_HAND.get())
-        .withTooltip((value) -> MC.font.split(new TextComponent("Whether you can see your hand in freecam."), 200))
-        .create(this.width / 2 + buttonSpacing / 2, this.height / 6 + (buttonHeight + buttonSpacing) * 4, buttonWidth, buttonHeight,
-            new TextComponent("Show Hand"), (button, value) -> FreecamConfig.SHOW_HAND.set(value)));
-
-    this.addRenderableWidget(buttons.get(9));
-
-    buttons.add(CycleButton.onOffBuilder(FreecamConfig.NOTIFY_FREECAM.get())
-        .withTooltip((value) -> MC.font.split(new TextComponent("Notifies you when entering/exiting freecam."), 200))
-        .create(this.width / 2 - buttonWidth - buttonSpacing / 2, this.height / 6 + (buttonHeight + buttonSpacing) * 5, buttonWidth, buttonHeight,
-            new TextComponent("Freecam Notifications"), (button, value) -> FreecamConfig.NOTIFY_FREECAM.set(value)));
-
-    this.addRenderableWidget(buttons.get(10));
-
-    buttons.add(CycleButton.onOffBuilder(FreecamConfig.NOTIFY_PERSISTENT.get())
-        .withTooltip((value) -> MC.font.split(new TextComponent("Notifies you when entering/exiting tripod cameras."), 200))
-        .create(this.width / 2 + buttonSpacing / 2, this.height / 6 + (buttonHeight + buttonSpacing) * 5, buttonWidth, buttonHeight,
-            new TextComponent("Tripod Notifications"), (button, value) -> FreecamConfig.NOTIFY_PERSISTENT.set(value)));
-
-    this.addRenderableWidget(buttons.get(11));
+    this.addWidget(optionsList);
 
     this.addRenderableWidget(new Button(
-        this.width / 2 - 100, this.height - 27, 200, 20,
-        CommonComponents.GUI_DONE, button -> this.onClose()));
+        (this.width - BUTTON_WIDTH) / 2,
+        this.height - DONE_BUTTON_TOP_OFFSET,
+        BUTTON_WIDTH, BUTTON_HEIGHT,
+        CommonComponents.GUI_DONE,
+        button -> this.onClose()
+    ));
   }
 
   @Override
-  public void onClose() {
-    this.minecraft.setScreen(previous);
-  }
-
-  @Override
-  public void render(PoseStack poseStack, int i, int j, float f) {
-    this.renderDirtBackground(0);
-    drawCenteredString(poseStack, this.font, this.title, this.width / 2, 15, 0xFFFFFF);
-    super.render(poseStack, i, j, f);
-    for (AbstractWidget button : buttons) {
-      if (button.isMouseOver(i, j)) {
-        renderTooltip(poseStack, ((TooltipAccessor)button).getTooltip(), i, j);
-      }
-    }
-  }
-
-  @Override
-  public void removed() {
-  }
-
-  private static class TooltipSlider extends ForgeSlider implements TooltipAccessor {
-    private List<FormattedCharSequence> tooltip;
-
-    public TooltipSlider(int x, int y, int width, int height, Component prefix, Component suffix, List<FormattedCharSequence> tooltip, double minValue, double maxValue, double currentValue, double stepSize, int precision, boolean drawString) {
-      super(x, y, width, height, prefix, suffix, minValue, maxValue, currentValue, stepSize, precision, drawString);
-      this.tooltip = tooltip;
-    }
-
-    @Override public List<FormattedCharSequence> getTooltip() {
-      return tooltip;
-    }
+  public void render(PoseStack pPoseStack, int pMouseX, int pMouseY, float pPartialTick) {
+    this.renderBackground(pPoseStack);
+    this.optionsList.render(pPoseStack, pMouseX, pMouseY, pPartialTick);
+    drawCenteredString(pPoseStack, this.font, this.title, this.width / 2, TITLE_HEIGHT, 16777215);
+    super.render(pPoseStack, pMouseX, pMouseY, pPartialTick);
+    List<FormattedCharSequence> list = tooltipAt(this.optionsList, pMouseX, pMouseY);
+    this.renderTooltip(pPoseStack, list, pMouseX, pMouseY);
   }
 }
