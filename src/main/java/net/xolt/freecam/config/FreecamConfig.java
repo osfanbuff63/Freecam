@@ -1,6 +1,11 @@
 package net.xolt.freecam.config;
 
+import net.minecraft.util.Mth;
+import net.minecraft.util.OptionEnum;
 import net.minecraftforge.common.ForgeConfigSpec;
+
+import java.util.Arrays;
+import java.util.Comparator;
 
 public class FreecamConfig {
   public static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
@@ -62,33 +67,63 @@ public class FreecamConfig {
     SPEC = BUILDER.build();
   }
 
-  public enum FlightMode {
-    CREATIVE("Creative"),
-    DEFAULT("Default");
+  public enum FlightMode implements OptionEnum {
+    CREATIVE(0,"Creative"),
+    DEFAULT(1, "Default");
 
-    private final String name;
+    private static final FlightMode[] BY_ID = Arrays.stream(values()).sorted(Comparator.comparingInt(FlightMode::getId)).toArray((size) -> {
+      return new FlightMode[size];
+    });
+    private final int id;
+    private final String key;
 
-    FlightMode(String name) {
-      this.name = name;
+    FlightMode(int id, String key) {
+      this.id = id;
+      this.key = key;
     }
 
+    @Override
+    public int getId() {
+      return id;
+    }
+
+    @Override
     public String getKey() {
-      return name;
+      return key;
+    }
+
+    public static FlightMode byId(int pId) {
+      return BY_ID[Mth.positiveModulo(pId, BY_ID.length)];
     }
   }
 
-  public enum InteractionMode {
-    CAMERA("Camera"),
-    PLAYER("Player");
+  public enum InteractionMode implements OptionEnum {
+    CAMERA(0,"Camera"),
+    PLAYER(1,"Player");
 
-    private final String name;
+    private static final InteractionMode[] BY_ID = Arrays.stream(values()).sorted(Comparator.comparingInt(InteractionMode::getId)).toArray((size) -> {
+      return new InteractionMode[size];
+    });
+    private final int id;
+    private final String key;
 
-    InteractionMode(String name) {
-      this.name = name;
+    InteractionMode(int id, String name) {
+      this.id = id;
+      this.key = name;
     }
 
+    @Override
+    public int getId() {
+      return id;
+    }
+
+    @Override
     public String getKey() {
-      return name;
+      return key;
+    }
+
+    public static InteractionMode byId(int pId) {
+      return BY_ID[Mth.positiveModulo(pId, BY_ID.length)];
     }
   }
 }
