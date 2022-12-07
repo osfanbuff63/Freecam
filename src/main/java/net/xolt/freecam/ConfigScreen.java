@@ -1,7 +1,6 @@
 package net.xolt.freecam;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.OptionSlider;
 import net.minecraft.client.gui.widget.Widget;
@@ -12,9 +11,9 @@ import net.minecraft.client.settings.BooleanOption;
 import net.minecraft.client.settings.IteratableOption;
 import net.minecraft.client.settings.SliderPercentageOption;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.xolt.freecam.config.FreecamConfig;
 
-import java.awt.font.FontRenderContext;
 import java.util.Optional;
 
 import static net.xolt.freecam.Freecam.MC;
@@ -33,7 +32,7 @@ public class ConfigScreen extends Screen {
   private OptionsRowList optionsRowList;
 
   public ConfigScreen(Screen previous) {
-    super(new StringTextComponent("Freecam"));
+    super(new TranslationTextComponent("text.freecam.configScreen.title"));
     this.previous = previous;
   }
 
@@ -66,7 +65,7 @@ public class ConfigScreen extends Screen {
         "Horizontal Speed",
         0.0, 10.0, 0.1F,
         unused -> FreecamConfig.HORIZONTAL_SPEED.get(),
-        (unused, newValue) -> FreecamConfig.HORIZONTAL_SPEED.set(newValue),
+        (unused, newValue) -> FreecamConfig.HORIZONTAL_SPEED.set(Math.round(newValue * 10.0) / 10.0),
         (gs, option) -> new StringTextComponent("Horizontal Speed: " + option.get(gs))
     );
     horizontalSpeed.setTooltip(MC.font.split(new StringTextComponent("The horizontal speed of freecam."), 200));
@@ -76,7 +75,7 @@ public class ConfigScreen extends Screen {
         "Vertical Speed",
         0.0, 10.0, 0.1F,
         unused -> FreecamConfig.VERTICAL_SPEED.get(),
-        (unused, newValue) -> FreecamConfig.VERTICAL_SPEED.set(newValue),
+        (unused, newValue) -> FreecamConfig.VERTICAL_SPEED.set(Math.round(newValue * 10.0) / 10.0),
         (gs, option) -> new StringTextComponent("Vertical Speed: " + option.get(gs))
     );
     verticalSpeed.setTooltip(MC.font.split(new StringTextComponent("The vertical speed of freecam."), 200));
@@ -177,9 +176,5 @@ public class ConfigScreen extends Screen {
     drawCenteredString(matrixStack, this.font, this.title.getString(),
         this.width / 2, TITLE_HEIGHT, 0xFFFFFF);
     super.render(matrixStack, mouseX, mouseY, partialTicks);
-  }
-
-  @Override
-  public void removed() {
   }
 }
