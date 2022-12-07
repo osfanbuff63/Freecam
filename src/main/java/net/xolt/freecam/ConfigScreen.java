@@ -164,6 +164,11 @@ public class ConfigScreen extends Screen {
   }
 
   @Override
+  public void onClose() {
+    this.minecraft.setScreen(previous);
+  }
+
+  @Override
   public void render(PoseStack pPoseStack, int pMouseX, int pMouseY, float pPartialTick) {
     this.renderBackground(pPoseStack);
     this.optionsList.render(pPoseStack, pMouseX, pMouseY, pPartialTick);
