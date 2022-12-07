@@ -148,7 +148,7 @@ public class ConfigScreen extends Screen {
 
     OptionInstance<Boolean> notifyPersistent = OptionInstance.createBoolean(
         "Tripod Notifications",
-        (value) -> (value2) -> MC.font.split(Component.literal("Notifies you when entering/exiting freecam."), 200),
+        (value) -> (value2) -> MC.font.split(Component.literal("Notifies you when entering/exiting tripod cameras."), 200),
         FreecamConfig.NOTIFY_PERSISTENT.get(),
         (value) -> FreecamConfig.NOTIFY_PERSISTENT.set(value)
     );
@@ -163,6 +163,11 @@ public class ConfigScreen extends Screen {
         CommonComponents.GUI_DONE,
         button -> this.onClose()
     ));
+  }
+
+  @Override
+  public void onClose() {
+    this.minecraft.setScreen(previous);
   }
 
   @Override
