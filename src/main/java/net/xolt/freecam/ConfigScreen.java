@@ -45,7 +45,7 @@ public class ConfigScreen extends Screen {
     );
 
     CycleOption<FreecamConfig.FlightMode> flightMode = CycleOption.create(
-        "Flight Mode",
+        "text.freecam.configScreen.option.flightMode",
         FreecamConfig.FlightMode.values(),
         (option) -> new TextComponent(option.getKey()),
         (option) -> (FreecamConfig.FlightMode)FreecamConfig.FLIGHT_MODE.get(),
@@ -55,7 +55,7 @@ public class ConfigScreen extends Screen {
     this.optionsList.addBig(flightMode);
 
     CycleOption<FreecamConfig.InteractionMode> interactionMode = CycleOption.create(
-        "Interaction Mode",
+        "text.freecam.configScreen.option.interactionMode",
         FreecamConfig.InteractionMode.values(),
         (option) -> new TextComponent(option.getKey()),
         (option) -> (FreecamConfig.InteractionMode)FreecamConfig.INTERACTION_MODE.get(),
@@ -65,7 +65,7 @@ public class ConfigScreen extends Screen {
     this.optionsList.addBig(interactionMode);
 
     ProgressOption horizontalSpeed = new ProgressOption(
-        "Horizontal Speed",
+        "text.freecam.configScreen.option.horizontalSpeed",
         0.0,
         10.0,
         0.1F,
@@ -81,7 +81,7 @@ public class ConfigScreen extends Screen {
     this.optionsList.addBig(horizontalSpeed);
 
     ProgressOption verticalSpeed = new ProgressOption(
-        "Horizontal Speed",
+        "text.freecam.configScreen.option.verticalSpeed",
         0.0,
         10.0,
         0.1F,
@@ -97,7 +97,7 @@ public class ConfigScreen extends Screen {
     this.optionsList.addBig(verticalSpeed);
 
     CycleOption<Boolean> noClip = CycleOption.createOnOff(
-        "No Clip",
+        "text.freecam.configScreen.option.noClip",
         (option) -> FreecamConfig.NO_CLIP.get(),
         (pOptions, pOption, pValue) -> FreecamConfig.NO_CLIP.set(pValue)
     );
@@ -105,31 +105,31 @@ public class ConfigScreen extends Screen {
     this.optionsList.addBig(noClip);
 
     CycleOption<Boolean> disableOnDamage = CycleOption.createOnOff(
-        "Disable on Damage",
+        "text.freecam.configScreen.option.disableOnDamage",
         (option) -> FreecamConfig.DISABLE_ON_DAMAGE.get(),
         (pOptions, pOption, pValue) -> FreecamConfig.DISABLE_ON_DAMAGE.set(pValue)
     );
     disableOnDamage.setTooltip((mc) -> (value) -> MC.font.split(new TextComponent("Disables freecam when damage is received."), 200));
     this.optionsList.addBig(disableOnDamage);
 
-    CycleOption<Boolean> freezePlayer = CycleOption.createOnOff(
-        "Freeze Player",
-        (option) -> FreecamConfig.FREEZE_PLAYER.get(),
-        (pOptions, pOption, pValue) -> FreecamConfig.FREEZE_PLAYER.set(pValue)
-    );
-    freezePlayer.setTooltip((mc) -> (value) -> MC.font.split(new TextComponent("Prevents player movement while freecam is active.\n\u00A7cWARNING: Multiplayer usage not advised."), 200));
-    this.optionsList.addBig(freezePlayer);
-
     CycleOption<Boolean> allowInteract = CycleOption.createOnOff(
-        "Allow Interaction",
+        "text.freecam.configScreen.option.allowInteract",
         (option) -> FreecamConfig.ALLOW_INTERACT.get(),
         (pOptions, pOption, pValue) -> FreecamConfig.ALLOW_INTERACT.set(pValue)
     );
     allowInteract.setTooltip((mc) -> (value) -> MC.font.split(new TextComponent("Whether you can interact with blocks/entities in freecam.\n\u00A7cWARNING: Multiplayer usage not advised."), 200));
     this.optionsList.addBig(allowInteract);
 
+    CycleOption<Boolean> freezePlayer = CycleOption.createOnOff(
+        "text.freecam.configScreen.option.freezePlayer",
+        (option) -> FreecamConfig.FREEZE_PLAYER.get(),
+        (pOptions, pOption, pValue) -> FreecamConfig.FREEZE_PLAYER.set(pValue)
+    );
+    freezePlayer.setTooltip((mc) -> (value) -> MC.font.split(new TextComponent("Prevents player movement while freecam is active.\n\u00A7cWARNING: Multiplayer usage not advised."), 200));
+    this.optionsList.addBig(freezePlayer);
+
     CycleOption<Boolean> showPlayer = CycleOption.createOnOff(
-        "Show Player",
+        "text.freecam.configScreen.option.showPlayer",
         (option) -> FreecamConfig.SHOW_PLAYER.get(),
         (pOptions, pOption, pValue) -> FreecamConfig.SHOW_PLAYER.set(pValue)
     );
@@ -137,7 +137,7 @@ public class ConfigScreen extends Screen {
     this.optionsList.addBig(showPlayer);
 
     CycleOption<Boolean> showHand = CycleOption.createOnOff(
-        "Show Hand",
+        "text.freecam.configScreen.option.showHand",
         (option) -> FreecamConfig.SHOW_HAND.get(),
         (pOptions, pOption, pValue) -> FreecamConfig.SHOW_HAND.set(pValue)
     );
@@ -145,7 +145,7 @@ public class ConfigScreen extends Screen {
     this.optionsList.addBig(showHand);
 
     CycleOption<Boolean> notifyFreecam = CycleOption.createOnOff(
-        "Freecam Notifications",
+        "text.freecam.configScreen.option.notifyFreecam",
         (option) -> FreecamConfig.NOTIFY_FREECAM.get(),
         (pOptions, pOption, pValue) -> FreecamConfig.NOTIFY_FREECAM.set(pValue)
     );
@@ -153,7 +153,7 @@ public class ConfigScreen extends Screen {
     this.optionsList.addBig(notifyFreecam);
 
     CycleOption<Boolean> notifyPersistent = CycleOption.createOnOff(
-        "Tripod Notifications",
+        "text.freecam.configScreen.option.notifyPersistent",
         (option) -> FreecamConfig.NOTIFY_PERSISTENT.get(),
         (pOptions, pOption, pValue) -> FreecamConfig.NOTIFY_PERSISTENT.set(pValue)
     );
