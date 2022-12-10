@@ -88,7 +88,7 @@ public class ConfigScreen extends Screen {
 
     OptionInstance<Boolean> noClip = OptionInstance.createBoolean(
         "text.freecam.configScreen.option.noClip",
-        (value) -> Tooltip.create(Component.literal("Whether you can travel through blocks in freecam.")),
+        (value) -> Tooltip.create(Component.literal("Whether you can travel through blocks in freecam.\n\u00A7cNOTE: Can only be used in singleplayer, creative, or with operator status.")),
         FreecamConfig.NO_CLIP.get(),
         (value) -> FreecamConfig.NO_CLIP.set(value)
     );
@@ -104,7 +104,7 @@ public class ConfigScreen extends Screen {
 
     OptionInstance<Boolean> allowInteract = OptionInstance.createBoolean(
         "text.freecam.configScreen.option.allowInteract",
-        (value) -> Tooltip.create(Component.literal("Whether you can interact with blocks/entities in freecam.\n\u00A7cWARNING: Multiplayer usage not advised.")),
+        (value) -> Tooltip.create(Component.literal("Whether you can interact with blocks/entities in freecam.\n\u00A7cNOTE: Can only be used in singleplayer, creative, or with operator status.\n\u00A7c*Unless using interaction mode 'Player'")),
         FreecamConfig.ALLOW_INTERACT.get(),
         (value) -> FreecamConfig.ALLOW_INTERACT.set(value)
     );
@@ -112,7 +112,7 @@ public class ConfigScreen extends Screen {
 
     OptionInstance<Boolean> freezePlayer = OptionInstance.createBoolean(
         "text.freecam.configScreen.option.freezePlayer",
-        (value) -> Tooltip.create(Component.literal("Prevents player movement while freecam is active.\n\u00A7cWARNING: Multiplayer usage not advised.")),
+        (value) -> Tooltip.create(Component.literal("Prevents player movement while freecam is active.\n\u00A7cNOTE: Can only be used in singleplayer, creative, or with operator status.")),
         FreecamConfig.FREEZE_PLAYER.get(),
         (value) -> FreecamConfig.FREEZE_PLAYER.set(value)
     );

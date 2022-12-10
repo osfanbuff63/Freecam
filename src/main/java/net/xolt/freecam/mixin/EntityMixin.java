@@ -33,7 +33,7 @@ public class EntityMixin {
     // Freezes the player's position if freezePlayer is enabled.
     @Inject(method = "setDeltaMovement", at = @At("HEAD"), cancellable = true)
     private void onSetVelocity(CallbackInfo ci) {
-        if (Freecam.isEnabled() && FreecamConfig.FREEZE_PLAYER.get() && !Freecam.isPlayerControlEnabled() && this.equals(MC.player)) {
+        if (Freecam.isEnabled() && FreecamConfig.FREEZE_PLAYER.get() && Freecam.canUseCheats() && !Freecam.isPlayerControlEnabled() && this.equals(MC.player)) {
             ci.cancel();
         }
     }
@@ -41,7 +41,7 @@ public class EntityMixin {
     // Freezes the player's position if freezePlayer is enabled.
     @Inject(method = "moveRelative", at = @At("HEAD"), cancellable = true)
     private void onUpdateVelocity(CallbackInfo ci) {
-        if (Freecam.isEnabled() && FreecamConfig.FREEZE_PLAYER.get() && !Freecam.isPlayerControlEnabled() && this.equals(MC.player)) {
+        if (Freecam.isEnabled() && FreecamConfig.FREEZE_PLAYER.get() && Freecam.canUseCheats() && !Freecam.isPlayerControlEnabled() && this.equals(MC.player)) {
             ci.cancel();
         }
     }
@@ -49,7 +49,7 @@ public class EntityMixin {
     // Freezes the player's position if freezePlayer is enabled.
     @Inject(method = "setPos", at = @At("HEAD"), cancellable = true)
     private void onSetPosition(CallbackInfo ci) {
-        if (Freecam.isEnabled() && FreecamConfig.FREEZE_PLAYER.get() && !Freecam.isPlayerControlEnabled() && this.equals(MC.player)) {
+        if (Freecam.isEnabled() && FreecamConfig.FREEZE_PLAYER.get() && Freecam.canUseCheats() && !Freecam.isPlayerControlEnabled() && this.equals(MC.player)) {
             ci.cancel();
         }
     }
@@ -57,7 +57,7 @@ public class EntityMixin {
     // Freezes the player's position if freezePlayer is enabled.
     @Inject(method = "setPos", at = @At("HEAD"), cancellable = true)
     private void onSetPos(CallbackInfo ci) {
-        if (Freecam.isEnabled() && FreecamConfig.FREEZE_PLAYER.get() && !Freecam.isPlayerControlEnabled() && this.equals(MC.player)) {
+        if (Freecam.isEnabled() && FreecamConfig.FREEZE_PLAYER.get() && Freecam.canUseCheats() && !Freecam.isPlayerControlEnabled() && this.equals(MC.player)) {
             ci.cancel();
         }
     }
@@ -65,7 +65,7 @@ public class EntityMixin {
     // Freezes the player's position if freezePlayer is enabled.
     @Inject(method = "setPosRaw", at = @At("HEAD"), cancellable = true)
     private void onSetPosRaw(CallbackInfo ci) {
-        if (Freecam.isEnabled() && FreecamConfig.FREEZE_PLAYER.get() && !Freecam.isPlayerControlEnabled() && this.equals(MC.player)) {
+        if (Freecam.isEnabled() && FreecamConfig.FREEZE_PLAYER.get() && Freecam.canUseCheats() && !Freecam.isPlayerControlEnabled() && this.equals(MC.player)) {
             ci.cancel();
         }
     }

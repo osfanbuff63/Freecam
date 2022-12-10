@@ -11,6 +11,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.PushReaction;
+import net.xolt.freecam.Freecam;
 import net.xolt.freecam.config.FreecamConfig;
 
 import java.util.UUID;
@@ -104,7 +105,7 @@ public class FreeCamera extends LocalPlayer {
 
     @Override
     public void aiStep() {
-        noPhysics = FreecamConfig.NO_CLIP.get();
+        noPhysics = FreecamConfig.NO_CLIP.get() && Freecam.canUseCheats();
         if (FreecamConfig.FLIGHT_MODE.get().equals(FreecamConfig.FlightMode.DEFAULT)) {
             getAbilities().setFlyingSpeed(0);
             Motion.doMotion(this, FreecamConfig.HORIZONTAL_SPEED.get(), FreecamConfig.VERTICAL_SPEED.get());
