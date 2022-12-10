@@ -71,7 +71,7 @@ public class ConfigScreen extends Screen {
             FreecamConfig.HORIZONTAL_SPEED.set(Math.round(newValue * 10.0) / 10.0);
           }
         },
-        (gs, option) -> new StringTextComponent("Horizontal Speed: " + option.get(gs))
+        (gs, option) -> new TranslationTextComponent("text.freecam.configScreen.option.horizontalSpeed").append(": " + option.get(gs))
     );
     horizontalSpeed.setTooltip(MC.font.split(new StringTextComponent("The horizontal speed of freecam."), 200));
     this.optionsRowList.addBig(horizontalSpeed);
@@ -85,7 +85,7 @@ public class ConfigScreen extends Screen {
             FreecamConfig.VERTICAL_SPEED.set(Math.round(newValue * 10.0) / 10.0);
           }
         },
-        (gs, option) -> new StringTextComponent("Vertical Speed: " + option.get(gs))
+        (gs, option) -> new TranslationTextComponent("text.freecam.configScreen.option.verticalSpeed").append(": " + option.get(gs))
     );
     verticalSpeed.setTooltip(MC.font.split(new StringTextComponent("The vertical speed of freecam."), 200));
     this.optionsRowList.addBig(verticalSpeed);

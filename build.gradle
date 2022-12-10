@@ -15,8 +15,8 @@ apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
 version = "${mod_version}"
-group = 'net.xolt.freecam' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = project.modid
+group = 'net.xolt' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = project.archives_base_name
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 
@@ -112,7 +112,7 @@ jar {
                 "Specification-Title"     : project.modid,
                 "Specification-Vendor"    : "hashalite",
                 "Specification-Version"   : project.mod_version,
-                "Implementation-Title"    : project.modid,
+                "Implementation-Title"    : project.archives_base_name,
                 "Implementation-Version"  : project.mod_version,
                 "Implementation-Vendor"   : "hashalite",
                 "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
