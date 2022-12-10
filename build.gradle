@@ -119,7 +119,7 @@ jar {
                 "Specification-Title"     : project.modid,
                 "Specification-Vendor"    : "hashalite",
                 "Specification-Version"   : project.mod_version,
-                "Implementation-Title"    : project.modid,
+                "Implementation-Title"    : project.archives_base_name,
                 "Implementation-Version"  : project.mod_version,
                 "Implementation-Vendor"   : "hashalite",
                 "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
