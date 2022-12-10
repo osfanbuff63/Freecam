@@ -46,23 +46,24 @@ public class ConfigScreen extends Screen {
     );
 
     IteratableOption flightMode = new IteratableOption(
-        "Flight Mode",
+        "text.freecam.configScreen.option.flightMode",
         (unused, newValue) -> FreecamConfig.FLIGHT_MODE.set(FreecamConfig.FlightMode.values()[(((FreecamConfig.FlightMode)FreecamConfig.FLIGHT_MODE.get()).ordinal() + newValue) % FreecamConfig.FlightMode.values().length]),
-        (unused, option) -> new StringTextComponent("Flight Mode: " + ((FreecamConfig.FlightMode)FreecamConfig.FLIGHT_MODE.get()).getKey())
+        //(unused, option) -> new StringTextComponent("Flight Mode: " + ((FreecamConfig.FlightMode)FreecamConfig.FLIGHT_MODE.get()).getKey())
+        (unused, option) -> new TranslationTextComponent("text.freecam.configScreen.option.flightMode").append(": " + ((FreecamConfig.FlightMode)FreecamConfig.FLIGHT_MODE.get()).getKey())
     );
     flightMode.setTooltip(MC.font.split(new StringTextComponent("The type of flight used by freecam."), 200));
     this.optionsRowList.addBig(flightMode);
 
     IteratableOption interactionMode = new IteratableOption(
-        "Interaction Mode",
+        "text.freecam.configScreen.option.interactionMode",
         (unused, newValue) -> FreecamConfig.INTERACTION_MODE.set(FreecamConfig.InteractionMode.values()[(((FreecamConfig.InteractionMode)FreecamConfig.INTERACTION_MODE.get()).ordinal() + newValue) % FreecamConfig.InteractionMode.values().length]),
-        (unused, option) -> new StringTextComponent("Interaction Mode: " + ((FreecamConfig.InteractionMode)FreecamConfig.INTERACTION_MODE.get()).getKey())
+        (unused, option) -> new TranslationTextComponent("text.freecam.configScreen.option.interactionMode").append(": " + ((FreecamConfig.InteractionMode)FreecamConfig.INTERACTION_MODE.get()).getKey())
     );
     interactionMode.setTooltip(MC.font.split(new StringTextComponent("The source of block/entity interactions."), 200));
     this.optionsRowList.addBig(interactionMode);
 
     SliderPercentageOption horizontalSpeed = new SliderPercentageOption(
-        "Horizontal Speed",
+        "text.freecam.configScreen.option.horizontalSpeed",
         0.0, 10.0, 0.1F,
         unused -> FreecamConfig.HORIZONTAL_SPEED.get(),
         (unused, newValue) -> {
@@ -76,7 +77,7 @@ public class ConfigScreen extends Screen {
     this.optionsRowList.addBig(horizontalSpeed);
 
     SliderPercentageOption verticalSpeed = new SliderPercentageOption(
-        "Vertical Speed",
+        "text.freecam.configScreen.option.verticalSpeed",
         0.0, 10.0, 0.1F,
         unused -> FreecamConfig.VERTICAL_SPEED.get(),
         (unused, newValue) -> {
@@ -90,7 +91,7 @@ public class ConfigScreen extends Screen {
     this.optionsRowList.addBig(verticalSpeed);
 
     BooleanOption noClip = new BooleanOption(
-        "No Clip",
+        "text.freecam.configScreen.option.noClip",
         unused -> FreecamConfig.NO_CLIP.get(),
         (unused, newValue) -> FreecamConfig.NO_CLIP.set(newValue)
     );
@@ -98,31 +99,31 @@ public class ConfigScreen extends Screen {
     this.optionsRowList.addBig(noClip);
 
     BooleanOption disableOnDamage = new BooleanOption(
-        "Disable on Damage",
+        "text.freecam.configScreen.option.disableOnDamage",
         unused -> FreecamConfig.DISABLE_ON_DAMAGE.get(),
         (unused, newValue) -> FreecamConfig.DISABLE_ON_DAMAGE.set(newValue)
     );
     disableOnDamage.setTooltip(MC.font.split(new StringTextComponent("Disables freecam when damage is received."), 200));
     this.optionsRowList.addBig(disableOnDamage);
 
-    BooleanOption freezePlayer = new BooleanOption(
-        "Freeze Player",
-        unused -> FreecamConfig.FREEZE_PLAYER.get(),
-        (unused, newValue) -> FreecamConfig.FREEZE_PLAYER.set(newValue)
-    );
-    freezePlayer.setTooltip(MC.font.split(new StringTextComponent("Prevents player movement while freecam is active.\n\u00A7cWARNING: Multiplayer usage not advised."), 200));
-    this.optionsRowList.addBig(freezePlayer);
-
     BooleanOption allowInteract = new BooleanOption(
-        "Allow Interaction",
+        "text.freecam.configScreen.option.allowInteract",
         unused -> FreecamConfig.ALLOW_INTERACT.get(),
         (unused, newValue) -> FreecamConfig.ALLOW_INTERACT.set(newValue)
     );
     allowInteract.setTooltip(MC.font.split(new StringTextComponent("Whether you can interact with blocks/entities in freecam.\n\u00A7cWARNING: Multiplayer usage not advised."), 200));
     this.optionsRowList.addBig(allowInteract);
 
+    BooleanOption freezePlayer = new BooleanOption(
+        "text.freecam.configScreen.option.freezePlayer",
+        unused -> FreecamConfig.FREEZE_PLAYER.get(),
+        (unused, newValue) -> FreecamConfig.FREEZE_PLAYER.set(newValue)
+    );
+    freezePlayer.setTooltip(MC.font.split(new StringTextComponent("Prevents player movement while freecam is active.\n\u00A7cWARNING: Multiplayer usage not advised."), 200));
+    this.optionsRowList.addBig(freezePlayer);
+
     BooleanOption showPlayer = new BooleanOption(
-        "Show Player",
+        "text.freecam.configScreen.option.showPlayer",
         unused -> FreecamConfig.SHOW_PLAYER.get(),
         (unused, newValue) -> FreecamConfig.SHOW_PLAYER.set(newValue)
     );
@@ -130,7 +131,7 @@ public class ConfigScreen extends Screen {
     this.optionsRowList.addBig(showPlayer);
 
     BooleanOption showHand = new BooleanOption(
-        "Show Hand",
+        "text.freecam.configScreen.option.showHand",
         unused -> FreecamConfig.SHOW_HAND.get(),
         (unused, newValue) -> FreecamConfig.SHOW_HAND.set(newValue)
     );
@@ -138,7 +139,7 @@ public class ConfigScreen extends Screen {
     this.optionsRowList.addBig(showHand);
 
     BooleanOption notifyFreecam = new BooleanOption(
-        "Freecam Notifications",
+        "text.freecam.configScreen.option.notifyFreecam",
         unused -> FreecamConfig.NOTIFY_FREECAM.get(),
         (unused, newValue) -> FreecamConfig.NOTIFY_FREECAM.set(newValue)
     );
@@ -146,7 +147,7 @@ public class ConfigScreen extends Screen {
     this.optionsRowList.addBig(notifyFreecam);
 
     BooleanOption notifyPersistent = new BooleanOption(
-        "Tripod Notifications",
+        "text.freecam.configScreen.option.notifyPersistent",
         unused -> FreecamConfig.NOTIFY_PERSISTENT.get(),
         (unused, newValue) -> FreecamConfig.NOTIFY_PERSISTENT.set(newValue)
     );

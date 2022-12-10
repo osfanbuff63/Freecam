@@ -2,6 +2,7 @@ package net.xolt.freecam.util;
 
 import com.mojang.authlib.GameProfile;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.material.PushReaction;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.client.network.play.ClientPlayNetHandler;
 import net.minecraft.entity.Pose;
@@ -24,9 +25,10 @@ public class FreeCamera extends ClientPlayerEntity {
         }
     };
 
-    public FreeCamera() {
+    public FreeCamera(int id) {
         super(MC, MC.level, CONNECTION, MC.player.getStats(), MC.player.getRecipeBook(), false, false);
 
+        setId(id);
         copyPosition(MC.player);
         super.setPose(MC.player.getPose());
         xBob = xRot;
@@ -84,6 +86,11 @@ public class FreeCamera extends ClientPlayerEntity {
 
     @Override public EffectInstance getEffect(Effect effect) {
         return MC.player.getEffect(effect);
+    }
+
+    // Prevents pistons from moving FreeCamera when noClip is enabled.
+    @Override public PushReaction getPistonPushReaction() {
+        return FreecamConfig.NO_CLIP.get() ? PushReaction.IGNORE : PushReaction.NORMAL;
     }
 
     // Prevents pose from changing when clipping through blocks.

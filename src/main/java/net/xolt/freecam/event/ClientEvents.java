@@ -20,10 +20,20 @@ public class ClientEvents {
     public static void clientSetup(FMLClientSetupEvent event) {
       ClientRegistry.registerKeyBinding(KEY_TOGGLE);
       ClientRegistry.registerKeyBinding(KEY_PLAYER_CONTROL);
+      ClientRegistry.registerKeyBinding(KEY_TRIPOD_RESET);
     }
 
     @SubscribeEvent
     public static void clientTick(TickEvent.ClientTickEvent event) {
+      if (Freecam.KEY_TRIPOD_RESET.isDown()) {
+        for (KeyBinding hotbarKey : MC.options.keyHotbarSlots) {
+          while (hotbarKey.consumeClick()) {
+            Freecam.resetCamera(hotbarKey.getDefaultKey().getValue());
+            while (Freecam.KEY_TRIPOD_RESET.consumeClick()) {}
+          }
+        }
+      }
+
       if (Freecam.KEY_TOGGLE.isDown()) {
         for (KeyBinding hotbarKey : MC.options.keyHotbarSlots) {
           while (hotbarKey.consumeClick()) {
