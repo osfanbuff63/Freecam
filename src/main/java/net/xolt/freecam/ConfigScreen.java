@@ -101,7 +101,7 @@ public class ConfigScreen extends Screen {
         (option) -> FreecamConfig.NO_CLIP.get(),
         (pOptions, pOption, pValue) -> FreecamConfig.NO_CLIP.set(pValue)
     );
-    noClip.setTooltip((mc) -> (value) -> MC.font.split(new TextComponent("Whether you can travel through blocks in freecam."), 200));
+    noClip.setTooltip((mc) -> (value) -> MC.font.split(new TextComponent("Whether you can travel through blocks in freecam.\n\u00A7cNOTE: Can only be used in singleplayer, creative, or with operator status."), 200));
     this.optionsList.addBig(noClip);
 
     CycleOption<Boolean> disableOnDamage = CycleOption.createOnOff(
@@ -117,7 +117,7 @@ public class ConfigScreen extends Screen {
         (option) -> FreecamConfig.ALLOW_INTERACT.get(),
         (pOptions, pOption, pValue) -> FreecamConfig.ALLOW_INTERACT.set(pValue)
     );
-    allowInteract.setTooltip((mc) -> (value) -> MC.font.split(new TextComponent("Whether you can interact with blocks/entities in freecam.\n\u00A7cWARNING: Multiplayer usage not advised."), 200));
+    allowInteract.setTooltip((mc) -> (value) -> MC.font.split(new TextComponent("Whether you can interact with blocks/entities in freecam.\n\u00A7cNOTE: Can only be used in singleplayer, creative, or with operator status.\n\u00A7c*Unless using interaction mode 'Player'"), 200));
     this.optionsList.addBig(allowInteract);
 
     CycleOption<Boolean> freezePlayer = CycleOption.createOnOff(
@@ -125,7 +125,7 @@ public class ConfigScreen extends Screen {
         (option) -> FreecamConfig.FREEZE_PLAYER.get(),
         (pOptions, pOption, pValue) -> FreecamConfig.FREEZE_PLAYER.set(pValue)
     );
-    freezePlayer.setTooltip((mc) -> (value) -> MC.font.split(new TextComponent("Prevents player movement while freecam is active.\n\u00A7cWARNING: Multiplayer usage not advised."), 200));
+    freezePlayer.setTooltip((mc) -> (value) -> MC.font.split(new TextComponent("Prevents player movement while freecam is active.\n\u00A7cNOTE: Can only be used in singleplayer, creative, or with operator status."), 200));
     this.optionsList.addBig(freezePlayer);
 
     CycleOption<Boolean> showPlayer = CycleOption.createOnOff(
