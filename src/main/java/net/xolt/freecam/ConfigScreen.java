@@ -95,7 +95,7 @@ public class ConfigScreen extends Screen {
         unused -> FreecamConfig.NO_CLIP.get(),
         (unused, newValue) -> FreecamConfig.NO_CLIP.set(newValue)
     );
-    noClip.setTooltip(MC.font.split(new StringTextComponent("Whether you can travel through blocks in freecam."), 200));
+    noClip.setTooltip(MC.font.split(new StringTextComponent("Whether you can travel through blocks in freecam.\n\u00A7cNOTE: Can only be used in singleplayer, creative, or with operator status."), 200));
     this.optionsRowList.addBig(noClip);
 
     BooleanOption disableOnDamage = new BooleanOption(
@@ -111,7 +111,7 @@ public class ConfigScreen extends Screen {
         unused -> FreecamConfig.ALLOW_INTERACT.get(),
         (unused, newValue) -> FreecamConfig.ALLOW_INTERACT.set(newValue)
     );
-    allowInteract.setTooltip(MC.font.split(new StringTextComponent("Whether you can interact with blocks/entities in freecam.\n\u00A7cWARNING: Multiplayer usage not advised."), 200));
+    allowInteract.setTooltip(MC.font.split(new StringTextComponent("Whether you can interact with blocks/entities in freecam.\n\u00A7cNOTE: Can only be used in singleplayer, creative, or with operator status.\n\u00A7c*Unless using interaction mode 'Player'"), 200));
     this.optionsRowList.addBig(allowInteract);
 
     BooleanOption freezePlayer = new BooleanOption(
@@ -119,7 +119,7 @@ public class ConfigScreen extends Screen {
         unused -> FreecamConfig.FREEZE_PLAYER.get(),
         (unused, newValue) -> FreecamConfig.FREEZE_PLAYER.set(newValue)
     );
-    freezePlayer.setTooltip(MC.font.split(new StringTextComponent("Prevents player movement while freecam is active.\n\u00A7cWARNING: Multiplayer usage not advised."), 200));
+    freezePlayer.setTooltip(MC.font.split(new StringTextComponent("Prevents player movement while freecam is active.\n\u00A7cNOTE: Can only be used in singleplayer, creative, or with operator status."), 200));
     this.optionsRowList.addBig(freezePlayer);
 
     BooleanOption showPlayer = new BooleanOption(

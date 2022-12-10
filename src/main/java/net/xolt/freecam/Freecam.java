@@ -207,4 +207,8 @@ public class Freecam {
   public static boolean isPlayerControlEnabled() {
     return playerControlEnabled;
   }
+
+  public static boolean canUseCheats() {
+    return MC.player.hasPermissions(2) || MC.player.isCreative() || MC.hasSingleplayerServer();
+  }
 }

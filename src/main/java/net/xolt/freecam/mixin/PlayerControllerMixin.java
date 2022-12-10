@@ -25,7 +25,7 @@ public class PlayerControllerMixin {
     // Prevents interacting with blocks when allowInteract is disabled.
     @Inject(method = "useItemOn", at = @At("HEAD"), cancellable = true)
     private void onInteractBlock(ClientPlayerEntity player, ClientWorld pLevel, Hand hand, BlockRayTraceResult hitResult, CallbackInfoReturnable<ActionResultType> cir) {
-        if (Freecam.isEnabled() && !Freecam.isPlayerControlEnabled() && !FreecamConfig.ALLOW_INTERACT.get()) {
+        if (Freecam.isEnabled() && !Freecam.isPlayerControlEnabled() && (!FreecamConfig.ALLOW_INTERACT.get() || (!Freecam.canUseCheats() && !FreecamConfig.INTERACTION_MODE.get().equals(FreecamConfig.InteractionMode.PLAYER)))) {
             cir.setReturnValue(ActionResultType.PASS);
         }
     }
@@ -33,7 +33,7 @@ public class PlayerControllerMixin {
     // Prevents interacting with entities when allowInteract is disabled, and prevents interacting with self.
     @Inject(method = "interact", at = @At("HEAD"), cancellable = true)
     private void onInteractEntity(PlayerEntity player, Entity entity, Hand hand, CallbackInfoReturnable<ActionResultType> cir) {
-        if (entity.equals(MC.player) || (Freecam.isEnabled() && !Freecam.isPlayerControlEnabled() && !FreecamConfig.ALLOW_INTERACT.get())) {
+        if (entity.equals(MC.player) || (Freecam.isEnabled() && !Freecam.isPlayerControlEnabled() && (!FreecamConfig.ALLOW_INTERACT.get() || (!Freecam.canUseCheats() && !FreecamConfig.INTERACTION_MODE.get().equals(FreecamConfig.InteractionMode.PLAYER))))) {
             cir.setReturnValue(ActionResultType.PASS);
         }
     }
@@ -41,7 +41,7 @@ public class PlayerControllerMixin {
     // Prevents interacting with entities when allowInteract is disabled, and prevents interacting with self.
     @Inject(method = "interactAt", at = @At("HEAD"), cancellable = true)
     private void onInteractEntityAtLocation(PlayerEntity player, Entity entity, EntityRayTraceResult hitResult, Hand hand, CallbackInfoReturnable<ActionResultType> cir) {
-        if (entity.equals(MC.player) || (Freecam.isEnabled() && !Freecam.isPlayerControlEnabled() && !FreecamConfig.ALLOW_INTERACT.get())) {
+        if (entity.equals(MC.player) || (Freecam.isEnabled() && !Freecam.isPlayerControlEnabled() && (!FreecamConfig.ALLOW_INTERACT.get() || (!Freecam.canUseCheats() && !FreecamConfig.INTERACTION_MODE.get().equals(FreecamConfig.InteractionMode.PLAYER))))) {
             cir.setReturnValue(ActionResultType.PASS);
         }
     }

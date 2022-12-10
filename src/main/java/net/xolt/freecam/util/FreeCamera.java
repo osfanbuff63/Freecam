@@ -11,6 +11,7 @@ import net.minecraft.potion.Effect;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.util.MovementInputFromOptions;
 import net.minecraft.util.math.BlockPos;
+import net.xolt.freecam.Freecam;
 import net.xolt.freecam.config.FreecamConfig;
 
 import java.util.UUID;
@@ -102,7 +103,7 @@ public class FreeCamera extends ClientPlayerEntity {
 
     @Override
     public void aiStep() {
-        noPhysics = FreecamConfig.NO_CLIP.get();
+        noPhysics = FreecamConfig.NO_CLIP.get() && Freecam.canUseCheats();
         if (FreecamConfig.FLIGHT_MODE.get().equals(FreecamConfig.FlightMode.DEFAULT)) {
             abilities.setFlyingSpeed(0);
             Motion.doMotion(this, FreecamConfig.HORIZONTAL_SPEED.get(), FreecamConfig.VERTICAL_SPEED.get());
