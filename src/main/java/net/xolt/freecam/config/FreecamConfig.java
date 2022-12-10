@@ -40,7 +40,7 @@ public class FreecamConfig {
         .defineInRange("Vertical Speed", 1.0, 0.0, 10.0);
 
     NO_CLIP = BUILDER.comment("Whether you can travel through blocks in freecam.")
-        .define("No Clip", true);
+        .define("No Clip", false);
 
     DISABLE_ON_DAMAGE = BUILDER.comment("Disables freecam when damage is received.")
         .define("Disable on Damage", true);
