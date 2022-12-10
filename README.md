@@ -1,6 +1,8 @@
 # Freecam
 
-This mod allows you to control your camera separately from your player. While it is enabled, you can fly around and travel through blocks within your render distance. Disabling it will restore you to your original position. This can be useful for quickly inspecting builds and exploring your world. 
+This mod allows you to control your camera separately from your player. While it is enabled, you can fly around and travel through blocks within your render distance. Disabling it will restore you to your original position. This can be useful for quickly inspecting builds and exploring your world.
+
+This version of Freecam is modified to comply with Modrinth's [rules](https://modrinth.com/legal/rules) regarding cheats and hacks. This means that access to certain features (noclip, block/entity interaction, and player freezing) is restricted unless you are an operator on the current server, in creative mode, or playing in a singleplayer world. If you would like to check out the original mod, it can be downloaded from [Curseforge](https://www.curseforge.com/minecraft/mc-mods/free-cam) or [Github](https://github.com/hashalite/Freecam).
 
 This mod works in multiplayer, but may be considered cheating on some servers, so use it at your own risk.
 
@@ -10,8 +12,9 @@ This mod works in multiplayer, but may be considered cheating on some servers, s
 |-|-|-|
 |Toggle Freecam|Enables/disables Freecam|`F4`|
 |Control Player|Transfers control back to your player, but retains your current perspective (Can only be used while Freecam is active.)|`Unbound`|
+|Reset Tripod|Resets a tripod\* camera when pressed in combination with any of the hotbar keys|`Unbound`|
 
-The freecam bind can also be used in conjunction with any of the hotbar keys (`F4` + `1`...`9`) to enter "tripod" mode. This enables you to set up multiple cameras with differing perspectives, and switch between them at will.
+\*The freecam bind can also be used in conjunction with any of the hotbar keys (`F4` + `1`...`9`) to enter "tripod" mode. This enables you to set up multiple cameras with differing perspectives, and switch between them at will.
 
 ## Settings
 
@@ -33,7 +36,10 @@ The freecam bind can also be used in conjunction with any of the hotbar keys (`F
 |Tripod Notifications|Notifies you when entering/exiting tripod cameras.|`true`|
 
 ## Requirements
+
+### Fabric
 - [Fabric API](https://www.curseforge.com/minecraft/mc-mods/fabric-api)
 - [Mod Menu](https://www.curseforge.com/minecraft/mc-mods/modmenu) (Optional for easier configuration)
 
-Curseforge page [here](https://www.curseforge.com/minecraft/mc-mods/free-cam).
+### Forge
+- None
