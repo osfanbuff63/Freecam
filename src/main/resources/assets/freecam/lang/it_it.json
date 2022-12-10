@@ -1,0 +1,22 @@
+{
+  "category.freecam.freecam": "Camera libera",
+  "key.freecam.toggle": "Attiva/Disattiva Camera libera",
+  "key.freecam.playerControl": "Controlla il Giocatore",
+  "msg.freecam.enable": "la Camera libera è stata abilitata.",
+  "msg.freecam.disable": "la Camera libera è stata disattiva.",
+  "msg.freecam.enablePersistent": "Apri la Camera #",
+  "msg.freecam.disablePersistent": "Chiudi la Camera #",
+  "text.autoconfig.freecam.title": "Opzioni Camera libera",
+  "text.freecam.configScreen.option.flightMode": "Modalità Aereo",
+  "text.freecam.configScreen.option.interactionMode": "Modalità Interazioni",
+  "text.freecam.configScreen.option.horizontalSpeed": "Velocità Orizzontale",
+  "text.freecam.configScreen.option.verticalSpeed": "Velocità Verticale",
+  "text.freecam.configScreen.option.noClip": "No Clip",
+  "text.freecam.configScreen.option.freezePlayer": "Blocca Giocatore",
+  "text.freecam.configScreen.option.showPlayer": "Mostra Giocatore",
+  "text.freecam.configScreen.option.showHand": "Mostra Mano",
+  "text.freecam.configScreen.option.disableOnDamage": "Disattiva Danno",
+  "text.freecam.configScreen.option.allowInteract": "Consenti Interazione",
+  "text.freecam.configScreen.option.notifyFreecam": "Notifiche Camera libera",
+  "text.freecam.configScreen.option.notifyPersistent": "Notifiche Treppiedi"
+}

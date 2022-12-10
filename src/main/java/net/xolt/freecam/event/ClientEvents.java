@@ -17,6 +17,15 @@ public class ClientEvents {
 
     @SubscribeEvent
     public static void clientTick(TickEvent.ClientTickEvent event) {
+      if (Freecam.KEY_TRIPOD_RESET.isDown()) {
+        for (KeyMapping hotbarKey : MC.options.keyHotbarSlots) {
+          while (hotbarKey.consumeClick()) {
+            Freecam.resetCamera(hotbarKey.getDefaultKey().getValue());
+            while (Freecam.KEY_TRIPOD_RESET.consumeClick()) {}
+          }
+        }
+      }
+
       if (Freecam.KEY_TOGGLE.isDown()) {
         for (KeyMapping hotbarKey : MC.options.keyHotbarSlots) {
           while (hotbarKey.consumeClick()) {
@@ -42,6 +51,7 @@ public class ClientEvents {
     public static void onKeyRegister(RegisterKeyMappingsEvent event) {
       event.register(Freecam.KEY_TOGGLE);
       event.register(Freecam.KEY_PLAYER_CONTROL);
+      event.register(Freecam.KEY_TRIPOD_RESET);
     }
   }
 }

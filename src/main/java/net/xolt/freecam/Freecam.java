@@ -28,6 +28,7 @@ public class Freecam {
 
   public static final KeyMapping KEY_TOGGLE = new KeyMapping("key.freecam.toggle", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_F4, "category.freecam.freecam");
   public static final KeyMapping KEY_PLAYER_CONTROL = new KeyMapping("key.freecam.playerControl", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_UNKNOWN, "category.freecam.freecam");
+  public static final KeyMapping KEY_TRIPOD_RESET = new KeyMapping("key.freecam.tripodReset", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_UNKNOWN, "category.freecam.freecam");
 
   private static boolean enabled = false;
   private static boolean persistentCameraEnabled = false;
@@ -84,6 +85,16 @@ public class Freecam {
     }
   }
 
+  public static void resetCamera(int keyCode) {
+    FreeCamera camera = persistentCameras.get(keyCode);
+    if (camera != null) {
+      camera.copyPosition(MC.player);
+      if (FreecamConfig.NOTIFY_PERSISTENT.get()) {
+        MC.player.displayClientMessage(Component.translatable("msg.freecam.tripodReset").append("" + keyCode % GLFW.GLFW_KEY_0), true);
+      }
+    }
+  }
+
   public static void switchControls() {
     if (isEnabled()) {
       if (playerControlEnabled) {
@@ -107,7 +118,7 @@ public class Freecam {
     }
 
     if (persistentCamera == null || !chunkLoaded) {
-      persistentCamera = new FreeCamera();
+      persistentCamera = new FreeCamera(-420 - (keyCode % GLFW.GLFW_KEY_0));
       persistentCameras.put(keyCode, persistentCamera);
       persistentCamera.spawn();
     }
@@ -135,7 +146,7 @@ public class Freecam {
 
   private static void onEnableFreecam() {
     onEnable();
-    freeCamera = new FreeCamera();
+    freeCamera = new FreeCamera(-420);
     freeCamera.spawn();
     MC.setCameraEntity(freeCamera);
 
