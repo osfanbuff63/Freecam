@@ -16,6 +16,6 @@ public class ConnectionMixin {
         if (Freecam.isEnabled()) {
             Freecam.toggle();
         }
-        Freecam.clearPersistentCameras();
+        Freecam.clearTripods();
     }
 }

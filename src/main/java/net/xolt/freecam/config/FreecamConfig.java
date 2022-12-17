@@ -17,7 +17,7 @@ public class FreecamConfig {
   public static final ForgeConfigSpec.BooleanValue SHOW_PLAYER;
   public static final ForgeConfigSpec.BooleanValue SHOW_HAND;
   public static final ForgeConfigSpec.BooleanValue NOTIFY_FREECAM;
-  public static final ForgeConfigSpec.BooleanValue NOTIFY_PERSISTENT;
+  public static final ForgeConfigSpec.BooleanValue NOTIFY_TRIPOD;
 
   static {
     BUILDER.push("Freecam");
@@ -55,7 +55,7 @@ public class FreecamConfig {
     NOTIFY_FREECAM = BUILDER.comment("Notifies you when entering/exiting freecam.")
         .define("Freecam Notifications", true);
 
-    NOTIFY_PERSISTENT = BUILDER.comment("Notifies you when entering/exiting tripod cameras.")
+    NOTIFY_TRIPOD = BUILDER.comment("Notifies you when entering/exiting tripod cameras.")
         .define("Tripod Notifications", true);
 
     BUILDER.pop();
@@ -63,8 +63,8 @@ public class FreecamConfig {
   }
 
   public enum FlightMode {
-    CREATIVE("Creative"),
-    DEFAULT("Default");
+    CREATIVE("text.freecam.configScreen.option.flightMode.creative"),
+    DEFAULT("text.freecam.configScreen.option.flightMode.default");
 
     private final String key;
 
@@ -78,8 +78,8 @@ public class FreecamConfig {
   }
 
   public enum InteractionMode {
-    CAMERA("Camera"),
-    PLAYER("Player");
+    CAMERA("text.freecam.configScreen.option.interactionMode.camera"),
+    PLAYER("text.freecam.configScreen.option.interactionMode.player");
 
     private final String key;
 
