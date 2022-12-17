@@ -22,7 +22,7 @@ public class FreecamConfig {
   public static final ForgeConfigSpec.BooleanValue SHOW_PLAYER;
   public static final ForgeConfigSpec.BooleanValue SHOW_HAND;
   public static final ForgeConfigSpec.BooleanValue NOTIFY_FREECAM;
-  public static final ForgeConfigSpec.BooleanValue NOTIFY_PERSISTENT;
+  public static final ForgeConfigSpec.BooleanValue NOTIFY_TRIPOD;
 
   static {
     BUILDER.push("Freecam");
@@ -60,7 +60,7 @@ public class FreecamConfig {
     NOTIFY_FREECAM = BUILDER.comment("Notifies you when entering/exiting freecam.")
         .define("Freecam Notifications", true);
 
-    NOTIFY_PERSISTENT = BUILDER.comment("Notifies you when entering/exiting tripod cameras.")
+    NOTIFY_TRIPOD = BUILDER.comment("Notifies you when entering/exiting tripod cameras.")
         .define("Tripod Notifications", true);
 
     BUILDER.pop();
@@ -68,8 +68,8 @@ public class FreecamConfig {
   }
 
   public enum FlightMode implements OptionEnum {
-    CREATIVE(0,"Creative"),
-    DEFAULT(1, "Default");
+    CREATIVE(0,"text.freecam.configScreen.option.flightMode.creative"),
+    DEFAULT(1, "text.freecam.configScreen.option.flightMode.default");
 
     private static final FlightMode[] BY_ID = Arrays.stream(values()).sorted(Comparator.comparingInt(FlightMode::getId)).toArray((size) -> {
       return new FlightMode[size];
@@ -98,8 +98,8 @@ public class FreecamConfig {
   }
 
   public enum InteractionMode implements OptionEnum {
-    CAMERA(0,"Camera"),
-    PLAYER(1,"Player");
+    CAMERA(0,"text.freecam.configScreen.option.interactionMode.camera"),
+    PLAYER(1,"text.freecam.configScreen.option.interactionMode.player");
 
     private static final InteractionMode[] BY_ID = Arrays.stream(values()).sorted(Comparator.comparingInt(InteractionMode::getId)).toArray((size) -> {
       return new InteractionMode[size];
