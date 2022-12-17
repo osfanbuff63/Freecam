@@ -14,9 +14,9 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
-version = "${mod_version}"
-group = 'net.xolt' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = project.archives_base_name
+version = project.mod_version + "+" + project.mc_major_version
+group = project.maven_group // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 
 // Mojang ships Java 16 to end users in 1.17+ instead of Java 8 in 1.16 or lower, so your mod should target Java 16.
 java.toolchain.languageVersion = JavaLanguageVersion.of(16)
@@ -47,7 +47,7 @@ minecraft {
             properties 'mixin.env.remapRefMap': 'true'
             property 'mixin.env.refMapRemappingFile', "${project.projectDir}/build/createSrgToMcp/output.srg"
             workingDirectory project.file('run')
-            arg "-mixin.config=freecam.mixins.json"
+            arg "-mixin.config=${modid}.mixins.json"
 
             // Recommended logging data for a userdev environment
             // The markers can be added/remove as needed separated by commas.
@@ -117,7 +117,7 @@ jar {
                 "Implementation-Version"  : project.mod_version,
                 "Implementation-Vendor"   : "hashalite",
                 "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
-                "MixinConfigs": "freecam.mixins.json"
+                "MixinConfigs": "${modid}.mixins.json"
         ])
     }
 }
@@ -143,5 +143,5 @@ publishing {
 apply plugin: 'org.spongepowered.mixin'
 
 mixin {
-    add sourceSets.main, "freecam.refmap.json"
+    add sourceSets.main, "${modid}.refmap.json"
 }
