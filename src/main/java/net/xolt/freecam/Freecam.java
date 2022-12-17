@@ -108,10 +108,12 @@ public class Freecam {
       chunkLoaded = MC.level.getChunkSource().hasChunk(tripod.xChunk, tripod.yChunk);
     }
 
-    if (tripod == null || !chunkLoaded) {
+    if (tripod == null) {
       tripod = new FreeCamera(-420 - (keyCode % GLFW.GLFW_KEY_0));
       tripods.put(keyCode, tripod);
       tripod.spawn();
+    } else if (!chunkLoaded) {
+      resetCamera(keyCode);
     }
 
     tripod.input = new MovementInputFromOptions(MC.options);
@@ -179,6 +181,9 @@ public class Freecam {
   }
 
   public static void clearTripods() {
+    for (Integer key : tripods.keySet()) {
+      tripods.get(key).despawn();
+    }
     tripods = new HashMap<>();
   }
 
