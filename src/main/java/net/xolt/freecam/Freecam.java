@@ -28,12 +28,12 @@ public class Freecam {
   public static final KeyBinding KEY_TRIPOD_RESET = new KeyBinding("key.freecam.tripodReset", InputMappings.Type.KEYSYM, GLFW.GLFW_KEY_UNKNOWN, "category.freecam.freecam");
 
   private static boolean enabled = false;
-  private static boolean persistentCameraEnabled = false;
+  private static boolean tripodEnabled = false;
   private static boolean playerControlEnabled = false;
-  private static Integer activePersistentCamera = null;
+  private static Integer activeTripod = null;
 
   private static FreeCamera freeCamera;
-  private static HashMap<Integer, FreeCamera> persistentCameras = new HashMap<>();
+  private static HashMap<Integer, FreeCamera> tripods = new HashMap<>();
 
   public Freecam() {
     ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, FreecamConfig.SPEC, "freecam.toml");
@@ -42,8 +42,8 @@ public class Freecam {
   }
 
   public static void toggle() {
-    if (persistentCameraEnabled) {
-      togglePersistentCamera(activePersistentCamera);
+    if (tripodEnabled) {
+      toggleTripod(activeTripod);
     } else {
       if (enabled) {
         onDisableFreecam();
@@ -54,34 +54,34 @@ public class Freecam {
     }
   }
 
-  public static void togglePersistentCamera() {
-    togglePersistentCamera(activePersistentCamera);
+  public static void toggleTripod() {
+    toggleTripod(activeTripod);
   }
 
-  public static void togglePersistentCamera(int keyCode) {
-    if (persistentCameraEnabled) {
-      if (activePersistentCamera.equals(keyCode)) {
-        onDisablePersistentCamera(keyCode);
-        persistentCameraEnabled = false;
+  public static void toggleTripod(int keyCode) {
+    if (tripodEnabled) {
+      if (activeTripod.equals(keyCode)) {
+        onDisableTripod(keyCode);
+        tripodEnabled = false;
       } else {
         onDisable();
-        persistentCameras.get(activePersistentCamera).input = new MovementInput();
-        onEnablePersistentCamera(keyCode);
+        tripods.get(activeTripod).input = new MovementInput();
+        onEnableTripod(keyCode);
       }
     } else {
       if (enabled) {
         toggle();
       }
-      onEnablePersistentCamera(keyCode);
-      persistentCameraEnabled = true;
+      onEnableTripod(keyCode);
+      tripodEnabled = true;
     }
   }
 
   public static void resetCamera(int keyCode) {
-    FreeCamera camera = persistentCameras.get(keyCode);
+    FreeCamera camera = tripods.get(keyCode);
     if (camera != null) {
       camera.copyPosition(MC.player);
-      if (FreecamConfig.NOTIFY_PERSISTENT.get()) {
+      if (FreecamConfig.NOTIFY_TRIPOD.get()) {
         MC.player.displayClientMessage(new TranslationTextComponent("msg.freecam.tripodReset").append("" + keyCode % GLFW.GLFW_KEY_0), true);
       }
     }
@@ -99,40 +99,40 @@ public class Freecam {
     }
   }
 
-  private static void onEnablePersistentCamera(int keyCode) {
+  private static void onEnableTripod(int keyCode) {
     onEnable();
-    FreeCamera persistentCamera = persistentCameras.get(keyCode);
+    FreeCamera tripod = tripods.get(keyCode);
 
     boolean chunkLoaded = false;
-    if (persistentCamera != null) {
-      chunkLoaded = MC.level.getChunkSource().hasChunk(persistentCamera.xChunk, persistentCamera.yChunk);
+    if (tripod != null) {
+      chunkLoaded = MC.level.getChunkSource().hasChunk(tripod.xChunk, tripod.yChunk);
     }
 
-    if (persistentCamera == null || !chunkLoaded) {
-      persistentCamera = new FreeCamera(-420 - (keyCode % GLFW.GLFW_KEY_0));
-      persistentCameras.put(keyCode, persistentCamera);
-      persistentCamera.spawn();
+    if (tripod == null || !chunkLoaded) {
+      tripod = new FreeCamera(-420 - (keyCode % GLFW.GLFW_KEY_0));
+      tripods.put(keyCode, tripod);
+      tripod.spawn();
     }
 
-    persistentCamera.input = new MovementInputFromOptions(MC.options);
-    MC.setCameraEntity(persistentCamera);
-    activePersistentCamera = keyCode;
+    tripod.input = new MovementInputFromOptions(MC.options);
+    MC.setCameraEntity(tripod);
+    activeTripod = keyCode;
 
-    if (FreecamConfig.NOTIFY_PERSISTENT.get()) {
-      MC.player.displayClientMessage(new TranslationTextComponent("msg.freecam.enablePersistent").append("" + activePersistentCamera % GLFW.GLFW_KEY_0), true);
+    if (FreecamConfig.NOTIFY_TRIPOD.get()) {
+      MC.player.displayClientMessage(new TranslationTextComponent("msg.freecam.enablePersistent").append("" + activeTripod % GLFW.GLFW_KEY_0), true);
     }
   }
 
-  private static void onDisablePersistentCamera(int keyCode) {
+  private static void onDisableTripod(int keyCode) {
     onDisable();
-    persistentCameras.get(keyCode).input = new MovementInput();
+    tripods.get(keyCode).input = new MovementInput();
 
     if (MC.player != null) {
-      if (FreecamConfig.NOTIFY_PERSISTENT.get()) {
-        MC.player.displayClientMessage(new TranslationTextComponent("msg.freecam.disablePersistent").append("" + activePersistentCamera % GLFW.GLFW_KEY_0), true);
+      if (FreecamConfig.NOTIFY_TRIPOD.get()) {
+        MC.player.displayClientMessage(new TranslationTextComponent("msg.freecam.disablePersistent").append("" + activeTripod % GLFW.GLFW_KEY_0), true);
       }
     }
-    activePersistentCamera = null;
+    activeTripod = null;
   }
 
   private static void onEnableFreecam() {
@@ -178,30 +178,30 @@ public class Freecam {
     }
   }
 
-  public static void clearPersistentCameras() {
-    persistentCameras = new HashMap<>();
+  public static void clearTripods() {
+    tripods = new HashMap<>();
   }
 
   public static FreeCamera getFreeCamera() {
     FreeCamera result = null;
     if (enabled) {
       result = freeCamera;
-    } else if (persistentCameraEnabled) {
-      result = persistentCameras.get(activePersistentCamera);
+    } else if (tripodEnabled) {
+      result = tripods.get(activeTripod);
     }
     return result;
   }
 
   public static boolean isEnabled() {
-    return enabled || persistentCameraEnabled;
+    return enabled || tripodEnabled;
   }
 
   public static boolean isFreecamEnabled() {
     return enabled;
   }
 
-  public static boolean isPersistentCameraEnabled() {
-    return persistentCameraEnabled;
+  public static boolean isTripodEnabled() {
+    return tripodEnabled;
   }
 
   public static boolean isPlayerControlEnabled() {
