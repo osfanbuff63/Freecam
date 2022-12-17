@@ -30,7 +30,7 @@ public class ClientEvents {
       if (Freecam.KEY_TOGGLE.isDown()) {
         for (KeyBinding hotbarKey : MC.options.keyHotbarSlots) {
           while (hotbarKey.consumeClick()) {
-            Freecam.togglePersistentCamera(hotbarKey.getDefaultKey().getValue());
+            Freecam.toggleTripod(hotbarKey.getDefaultKey().getValue());
             while (Freecam.KEY_TOGGLE.consumeClick()) {}
           }
         }

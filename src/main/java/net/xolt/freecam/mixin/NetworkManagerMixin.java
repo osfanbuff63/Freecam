@@ -16,6 +16,6 @@ public class NetworkManagerMixin {
         if (Freecam.isEnabled()) {
             Freecam.toggle();
         }
-        Freecam.clearPersistentCameras();
+        Freecam.clearTripods();
     }
 }
