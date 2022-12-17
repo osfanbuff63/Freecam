@@ -16,6 +16,6 @@ public class ClientPacketListenerMixin {
         if (Freecam.isEnabled()) {
             Freecam.toggle();
         }
-        Freecam.clearPersistentCameras();
+        Freecam.clearTripods();
     }
 }
