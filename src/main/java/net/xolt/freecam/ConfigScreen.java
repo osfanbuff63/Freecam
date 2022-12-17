@@ -47,21 +47,21 @@ public class ConfigScreen extends Screen {
     CycleOption<FreecamConfig.FlightMode> flightMode = CycleOption.create(
         "text.freecam.configScreen.option.flightMode",
         FreecamConfig.FlightMode.values(),
-        (option) -> new TextComponent(option.getKey()),
+        (option) -> new TranslatableComponent(option.getKey()),
         (option) -> (FreecamConfig.FlightMode)FreecamConfig.FLIGHT_MODE.get(),
         (pOptions, pOption, pValue) -> FreecamConfig.FLIGHT_MODE.set(pValue)
     );
-    flightMode.setTooltip((mc) -> (value) -> MC.font.split(new TextComponent("The type of flight used by freecam."), 200));
+    flightMode.setTooltip((mc) -> (value) -> MC.font.split(new TranslatableComponent("text.freecam.configScreen.option.flightMode.tooltip"), 200));
     this.optionsList.addBig(flightMode);
 
     CycleOption<FreecamConfig.InteractionMode> interactionMode = CycleOption.create(
         "text.freecam.configScreen.option.interactionMode",
         FreecamConfig.InteractionMode.values(),
-        (option) -> new TextComponent(option.getKey()),
+        (option) -> new TranslatableComponent(option.getKey()),
         (option) -> (FreecamConfig.InteractionMode)FreecamConfig.INTERACTION_MODE.get(),
         (pOptions, pOption, pValue) -> FreecamConfig.INTERACTION_MODE.set(pValue)
     );
-    interactionMode.setTooltip((mc) -> (value) -> MC.font.split(new TextComponent("The source of block/entity interactions."), 200));
+    interactionMode.setTooltip((mc) -> (value) -> MC.font.split(new TranslatableComponent("text.freecam.configScreen.option.interactionMode.tooltip"), 200));
     this.optionsList.addBig(interactionMode);
 
     ProgressOption horizontalSpeed = new ProgressOption(
@@ -76,7 +76,7 @@ public class ConfigScreen extends Screen {
           }
         },
         (option, pOption) -> new TranslatableComponent("text.freecam.configScreen.option.horizontalSpeed").append(": " + FreecamConfig.HORIZONTAL_SPEED.get()),
-        (mc) -> MC.font.split(new TextComponent("The horizontal speed of freecam."), 200)
+        (mc) -> MC.font.split(new TranslatableComponent("text.freecam.configScreen.option.horizontalSpeed.tooltip"), 200)
     );
     this.optionsList.addBig(horizontalSpeed);
 
@@ -92,7 +92,7 @@ public class ConfigScreen extends Screen {
           }
         },
         (option, pOption) -> new TranslatableComponent("text.freecam.configScreen.option.verticalSpeed").append(": " + FreecamConfig.VERTICAL_SPEED.get()),
-        (mc) -> MC.font.split(new TextComponent("The vertical speed of freecam."), 200)
+        (mc) -> MC.font.split(new TranslatableComponent("text.freecam.configScreen.option.verticalSpeed.tooltip"), 200)
     );
     this.optionsList.addBig(verticalSpeed);
 
@@ -101,7 +101,7 @@ public class ConfigScreen extends Screen {
         (option) -> FreecamConfig.NO_CLIP.get(),
         (pOptions, pOption, pValue) -> FreecamConfig.NO_CLIP.set(pValue)
     );
-    noClip.setTooltip((mc) -> (value) -> MC.font.split(new TextComponent("Whether you can travel through blocks in freecam."), 200));
+    noClip.setTooltip((mc) -> (value) -> MC.font.split(new TranslatableComponent("text.freecam.configScreen.option.noClip.tooltip"), 200));
     this.optionsList.addBig(noClip);
 
     CycleOption<Boolean> disableOnDamage = CycleOption.createOnOff(
@@ -109,7 +109,7 @@ public class ConfigScreen extends Screen {
         (option) -> FreecamConfig.DISABLE_ON_DAMAGE.get(),
         (pOptions, pOption, pValue) -> FreecamConfig.DISABLE_ON_DAMAGE.set(pValue)
     );
-    disableOnDamage.setTooltip((mc) -> (value) -> MC.font.split(new TextComponent("Disables freecam when damage is received."), 200));
+    disableOnDamage.setTooltip((mc) -> (value) -> MC.font.split(new TranslatableComponent("text.freecam.configScreen.option.disableOnDamage.tooltip"), 200));
     this.optionsList.addBig(disableOnDamage);
 
     CycleOption<Boolean> allowInteract = CycleOption.createOnOff(
@@ -117,7 +117,7 @@ public class ConfigScreen extends Screen {
         (option) -> FreecamConfig.ALLOW_INTERACT.get(),
         (pOptions, pOption, pValue) -> FreecamConfig.ALLOW_INTERACT.set(pValue)
     );
-    allowInteract.setTooltip((mc) -> (value) -> MC.font.split(new TextComponent("Whether you can interact with blocks/entities in freecam.\n\u00A7cWARNING: Multiplayer usage not advised."), 200));
+    allowInteract.setTooltip((mc) -> (value) -> MC.font.split(new TranslatableComponent("text.freecam.configScreen.option.allowInteract.tooltip"), 200));
     this.optionsList.addBig(allowInteract);
 
     CycleOption<Boolean> freezePlayer = CycleOption.createOnOff(
@@ -125,7 +125,7 @@ public class ConfigScreen extends Screen {
         (option) -> FreecamConfig.FREEZE_PLAYER.get(),
         (pOptions, pOption, pValue) -> FreecamConfig.FREEZE_PLAYER.set(pValue)
     );
-    freezePlayer.setTooltip((mc) -> (value) -> MC.font.split(new TextComponent("Prevents player movement while freecam is active.\n\u00A7cWARNING: Multiplayer usage not advised."), 200));
+    freezePlayer.setTooltip((mc) -> (value) -> MC.font.split(new TranslatableComponent("text.freecam.configScreen.option.freezePlayer.tooltip"), 200));
     this.optionsList.addBig(freezePlayer);
 
     CycleOption<Boolean> showPlayer = CycleOption.createOnOff(
@@ -133,7 +133,7 @@ public class ConfigScreen extends Screen {
         (option) -> FreecamConfig.SHOW_PLAYER.get(),
         (pOptions, pOption, pValue) -> FreecamConfig.SHOW_PLAYER.set(pValue)
     );
-    showPlayer.setTooltip((mc) -> (value) -> MC.font.split(new TextComponent("Shows your player in its original position."), 200));
+    showPlayer.setTooltip((mc) -> (value) -> MC.font.split(new TranslatableComponent("text.freecam.configScreen.option.showPlayer.tooltip"), 200));
     this.optionsList.addBig(showPlayer);
 
     CycleOption<Boolean> showHand = CycleOption.createOnOff(
@@ -141,7 +141,7 @@ public class ConfigScreen extends Screen {
         (option) -> FreecamConfig.SHOW_HAND.get(),
         (pOptions, pOption, pValue) -> FreecamConfig.SHOW_HAND.set(pValue)
     );
-    showHand.setTooltip((mc) -> (value) -> MC.font.split(new TextComponent("Whether you can see your hand in freecam."), 200));
+    showHand.setTooltip((mc) -> (value) -> MC.font.split(new TranslatableComponent("text.freecam.configScreen.option.showHand.tooltip"), 200));
     this.optionsList.addBig(showHand);
 
     CycleOption<Boolean> notifyFreecam = CycleOption.createOnOff(
@@ -149,16 +149,16 @@ public class ConfigScreen extends Screen {
         (option) -> FreecamConfig.NOTIFY_FREECAM.get(),
         (pOptions, pOption, pValue) -> FreecamConfig.NOTIFY_FREECAM.set(pValue)
     );
-    notifyFreecam.setTooltip((mc) -> (value) -> MC.font.split(new TextComponent("Notifies you when entering/exiting freecam."), 200));
+    notifyFreecam.setTooltip((mc) -> (value) -> MC.font.split(new TranslatableComponent("text.freecam.configScreen.option.notifyFreecam.tooltip"), 200));
     this.optionsList.addBig(notifyFreecam);
 
-    CycleOption<Boolean> notifyPersistent = CycleOption.createOnOff(
-        "text.freecam.configScreen.option.notifyPersistent",
-        (option) -> FreecamConfig.NOTIFY_PERSISTENT.get(),
-        (pOptions, pOption, pValue) -> FreecamConfig.NOTIFY_PERSISTENT.set(pValue)
+    CycleOption<Boolean> notifyTripod = CycleOption.createOnOff(
+        "text.freecam.configScreen.option.notifyTripod",
+        (option) -> FreecamConfig.NOTIFY_TRIPOD.get(),
+        (pOptions, pOption, pValue) -> FreecamConfig.NOTIFY_TRIPOD.set(pValue)
     );
-    notifyPersistent.setTooltip((mc) -> (value) -> MC.font.split(new TextComponent("Notifies you when entering/exiting tripod cameras."), 200));
-    this.optionsList.addBig(notifyPersistent);
+    notifyTripod.setTooltip((mc) -> (value) -> MC.font.split(new TranslatableComponent("text.freecam.configScreen.option.notifyTripod.tooltip"), 200));
+    this.optionsList.addBig(notifyTripod);
 
     this.addWidget(optionsList);
 
