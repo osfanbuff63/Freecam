@@ -23,19 +23,19 @@ import static net.xolt.freecam.Freecam.MC;
 @Mixin(LevelRenderer.class)
 public class LevelRendererMixin {
 
-  @Shadow
-  private RenderBuffers renderBuffers;
+    @Shadow
+    private RenderBuffers renderBuffers;
 
-  // Makes the player render if showPlayer is enabled.
-  @Inject(method = "renderLevel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/LevelRenderer;checkPoseStack(Lcom/mojang/blaze3d/vertex/PoseStack;)V", ordinal = 0))
-  private void onRender(PoseStack matrices, float tickDelta, long limitTime, boolean renderBlockOutline, Camera camera, GameRenderer gameRenderer, LightTexture lightmapTextureManager, Matrix4f positionMatrix, CallbackInfo ci) {
-    if (Freecam.isEnabled() && FreecamConfig.SHOW_PLAYER.get()) {
-      Vec3 cameraPos = camera.getPosition();
-      renderEntity(MC.player, cameraPos.x, cameraPos.y, cameraPos.z, tickDelta, matrices, renderBuffers.bufferSource());
+    // Makes the player render if showPlayer is enabled.
+    @Inject(method = "renderLevel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/LevelRenderer;checkPoseStack(Lcom/mojang/blaze3d/vertex/PoseStack;)V", ordinal = 0))
+    private void onRender(PoseStack matrices, float tickDelta, long limitTime, boolean renderBlockOutline, Camera camera, GameRenderer gameRenderer, LightTexture lightmapTextureManager, Matrix4f positionMatrix, CallbackInfo ci) {
+        if (Freecam.isEnabled() && FreecamConfig.SHOW_PLAYER.get()) {
+            Vec3 cameraPos = camera.getPosition();
+            renderEntity(MC.player, cameraPos.x, cameraPos.y, cameraPos.z, tickDelta, matrices, renderBuffers.bufferSource());
+        }
     }
-  }
 
-  @Shadow
-  private void renderEntity(Entity entity, double cameraX, double cameraY, double cameraZ, float tickDelta, PoseStack matrices, MultiBufferSource vertexConsumers) {
-  }
+    @Shadow
+    private void renderEntity(Entity entity, double cameraX, double cameraY, double cameraZ, float tickDelta, PoseStack matrices, MultiBufferSource vertexConsumers) {
+    }
 }
