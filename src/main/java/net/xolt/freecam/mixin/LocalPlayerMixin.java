@@ -25,10 +25,8 @@ public class LocalPlayerMixin {
     @Inject(method = "hurt", at = @At("HEAD"))
     private void onDamage(CallbackInfoReturnable<Boolean> cir) {
         if (FreecamConfig.DISABLE_ON_DAMAGE.get() && this.equals(MC.player)) {
-            if (Freecam.isFreecamEnabled()) {
+            if (Freecam.isEnabled()) {
                 Freecam.toggle();
-            } else if (Freecam.isTripodEnabled()) {
-                Freecam.toggleTripod();
             }
         }
     }
