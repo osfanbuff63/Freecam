@@ -26,11 +26,15 @@ public class FreeCamera extends ClientPlayerEntity {
     };
 
     public FreeCamera(int id) {
+        this(id, new FreecamPosition(MC.player));
+    }
+
+    public FreeCamera(int id, FreecamPosition position) {
         super(MC, MC.level, CONNECTION, MC.player.getStats(), MC.player.getRecipeBook(), false, false);
 
         setId(id);
-        copyPosition(MC.player);
-        super.setPose(MC.player.getPose());
+        moveTo(position.x, position.y, position.z, position.yaw, position.pitch);
+        super.setPose(position.pose);
         xBob = xRot;
         yBob = yRot;
         xBobO = xRot; // Prevents camera from rotating upon entering freecam.

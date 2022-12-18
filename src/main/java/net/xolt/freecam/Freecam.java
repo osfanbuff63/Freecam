@@ -6,6 +6,7 @@ import net.minecraft.client.settings.PointOfView;
 import net.minecraft.client.util.InputMappings;
 import net.minecraft.util.MovementInput;
 import net.minecraft.util.MovementInputFromOptions;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.fml.ExtensionPoint;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -14,6 +15,7 @@ import net.minecraftforge.fml.config.ModConfig;
 import net.xolt.freecam.config.FreecamConfig;
 import net.xolt.freecam.mixin.GameRendererAccessor;
 import net.xolt.freecam.util.FreeCamera;
+import net.xolt.freecam.util.FreecamPosition;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.HashMap;
@@ -22,18 +24,18 @@ import java.util.HashMap;
 public class Freecam {
   public static final String MOD_ID = "freecam";
   public static final Minecraft MC = Minecraft.getInstance();
-
   public static final KeyBinding KEY_TOGGLE = new KeyBinding("key.freecam.toggle", InputMappings.Type.KEYSYM, GLFW.GLFW_KEY_F4, "category.freecam.freecam");
   public static final KeyBinding KEY_PLAYER_CONTROL = new KeyBinding("key.freecam.playerControl", InputMappings.Type.KEYSYM, GLFW.GLFW_KEY_UNKNOWN, "category.freecam.freecam");
   public static final KeyBinding KEY_TRIPOD_RESET = new KeyBinding("key.freecam.tripodReset", InputMappings.Type.KEYSYM, GLFW.GLFW_KEY_UNKNOWN, "category.freecam.freecam");
 
-  private static boolean enabled = false;
+  private static boolean freecamEnabled = false;
   private static boolean tripodEnabled = false;
   private static boolean playerControlEnabled = false;
   private static Integer activeTripod = null;
-
   private static FreeCamera freeCamera;
-  private static HashMap<Integer, FreeCamera> tripods = new HashMap<>();
+  private static HashMap<Integer, FreecamPosition> overworld_tripods = new HashMap<>();
+  private static HashMap<Integer, FreecamPosition> nether_tripods = new HashMap<>();
+  private static HashMap<Integer, FreecamPosition> end_tripods = new HashMap<>();
 
   public Freecam() {
     ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, FreecamConfig.SPEC, "freecam.toml");
@@ -44,32 +46,32 @@ public class Freecam {
   public static void toggle() {
     if (tripodEnabled) {
       toggleTripod(activeTripod);
-    } else {
-      if (enabled) {
-        onDisableFreecam();
-      } else {
-        onEnableFreecam();
-      }
-      enabled = !enabled;
+      return;
     }
+
+    if (freecamEnabled) {
+      onDisableFreecam();
+    } else {
+      onEnableFreecam();
+    }
+    freecamEnabled = !freecamEnabled;
   }
 
-  public static void toggleTripod() {
-    toggleTripod(activeTripod);
-  }
+  public static void toggleTripod(Integer keyCode) {
+    if (keyCode == null) {
+      return;
+    }
 
-  public static void toggleTripod(int keyCode) {
     if (tripodEnabled) {
       if (activeTripod.equals(keyCode)) {
-        onDisableTripod(keyCode);
+        onDisableTripod();
         tripodEnabled = false;
       } else {
-        onDisable();
-        tripods.get(activeTripod).input = new MovementInput();
+        onDisableTripod();
         onEnableTripod(keyCode);
       }
     } else {
-      if (enabled) {
+      if (freecamEnabled) {
         toggle();
       }
       onEnableTripod(keyCode);
@@ -77,47 +79,43 @@ public class Freecam {
     }
   }
 
-  public static void resetCamera(int keyCode) {
-    FreeCamera camera = tripods.get(keyCode);
-    if (camera != null) {
-      camera.copyPosition(MC.player);
-      if (FreecamConfig.NOTIFY_TRIPOD.get()) {
-        MC.player.displayClientMessage(new TranslationTextComponent("msg.freecam.tripodReset").append("" + keyCode % GLFW.GLFW_KEY_0), true);
-      }
-    }
-  }
-
   public static void switchControls() {
-    if (isEnabled()) {
-      if (playerControlEnabled) {
-        getFreeCamera().input = new MovementInputFromOptions(MC.options);
-      } else {
-        MC.player.input = new MovementInputFromOptions(MC.options);
-        getFreeCamera().input = new MovementInput();
-      }
-      playerControlEnabled = !playerControlEnabled;
+    if (!isEnabled()) {
+      return;
     }
+
+    if (playerControlEnabled) {
+      getFreeCamera().input = new MovementInputFromOptions(MC.options);
+    } else {
+      MC.player.input = new MovementInputFromOptions(MC.options);
+      getFreeCamera().input = new MovementInput();
+    }
+    playerControlEnabled = !playerControlEnabled;
   }
 
   private static void onEnableTripod(int keyCode) {
     onEnable();
-    FreeCamera tripod = tripods.get(keyCode);
 
+    FreecamPosition position = getTripodsForDimension().get(keyCode);
     boolean chunkLoaded = false;
-    if (tripod != null) {
-      chunkLoaded = MC.level.getChunkSource().hasChunk(tripod.xChunk, tripod.yChunk);
+    if (position != null) {
+      ChunkPos chunkPos = position.getChunkPos();
+      chunkLoaded = MC.level.getChunkSource().hasChunk(chunkPos.x, chunkPos.z);
     }
 
-    if (tripod == null) {
-      tripod = new FreeCamera(-420 - (keyCode % GLFW.GLFW_KEY_0));
-      tripods.put(keyCode, tripod);
-      tripod.spawn();
-    } else if (!chunkLoaded) {
+    if (!chunkLoaded) {
       resetCamera(keyCode);
+      position = null;
     }
 
-    tripod.input = new MovementInputFromOptions(MC.options);
-    MC.setCameraEntity(tripod);
+    if (position == null) {
+      freeCamera = new FreeCamera(-420 - (keyCode % GLFW.GLFW_KEY_0));
+    } else {
+      freeCamera = new FreeCamera(-420 - (keyCode % GLFW.GLFW_KEY_0), position);
+    }
+
+    freeCamera.spawn();
+    MC.setCameraEntity(freeCamera);
     activeTripod = keyCode;
 
     if (FreecamConfig.NOTIFY_TRIPOD.get()) {
@@ -125,9 +123,9 @@ public class Freecam {
     }
   }
 
-  private static void onDisableTripod(int keyCode) {
+  private static void onDisableTripod() {
+    getTripodsForDimension().put(activeTripod, new FreecamPosition(freeCamera));
     onDisable();
-    tripods.get(keyCode).input = new MovementInput();
 
     if (MC.player != null) {
       if (FreecamConfig.NOTIFY_TRIPOD.get()) {
@@ -150,8 +148,6 @@ public class Freecam {
 
   private static void onDisableFreecam() {
     onDisable();
-    freeCamera.despawn();
-    freeCamera = null;
 
     if (MC.player != null) {
       if (FreecamConfig.NOTIFY_FREECAM.get()) {
@@ -174,39 +170,55 @@ public class Freecam {
     ((GameRendererAccessor)MC.gameRenderer).setRenderHand(true);
     MC.setCameraEntity(MC.player);
     playerControlEnabled = false;
+    freeCamera.despawn();
+    freeCamera.input = new MovementInput();
+    freeCamera = null;
 
     if (MC.player != null) {
       MC.player.input = new MovementInputFromOptions(MC.options);
     }
   }
 
-  public static void clearTripods() {
-    for (Integer key : tripods.keySet()) {
-      tripods.get(key).despawn();
+  public static void resetCamera(int keyCode) {
+    if (tripodEnabled && activeTripod == keyCode && freeCamera != null) {
+      freeCamera.copyPosition(MC.player);
+    } else {
+      getTripodsForDimension().put(keyCode, null);
     }
-    tripods = new HashMap<>();
+
+    if (FreecamConfig.NOTIFY_TRIPOD.get()) {
+      MC.player.displayClientMessage(new TranslationTextComponent("msg.freecam.tripodReset").append("" + keyCode % GLFW.GLFW_KEY_0), true);
+    }
+  }
+
+  public static void clearTripods() {
+    overworld_tripods = new HashMap<>();
+    nether_tripods = new HashMap<>();
+    end_tripods = new HashMap<>();
   }
 
   public static FreeCamera getFreeCamera() {
-    FreeCamera result = null;
-    if (enabled) {
-      result = freeCamera;
-    } else if (tripodEnabled) {
-      result = tripods.get(activeTripod);
+    return freeCamera;
+  }
+
+  public static HashMap<Integer, FreecamPosition> getTripodsForDimension() {
+    HashMap<Integer, FreecamPosition> result;
+    switch (MC.level.effects().skyType()) {
+      case NONE:
+        result = nether_tripods;
+        break;
+      case END:
+        result = end_tripods;
+        break;
+      default:
+        result = overworld_tripods;
+        break;
     }
     return result;
   }
 
   public static boolean isEnabled() {
-    return enabled || tripodEnabled;
-  }
-
-  public static boolean isFreecamEnabled() {
-    return enabled;
-  }
-
-  public static boolean isTripodEnabled() {
-    return tripodEnabled;
+    return freecamEnabled || tripodEnabled;
   }
 
   public static boolean isPlayerControlEnabled() {
