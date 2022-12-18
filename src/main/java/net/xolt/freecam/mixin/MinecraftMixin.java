@@ -24,7 +24,7 @@ public class MinecraftMixin {
                 input.shiftKeyDown = MC.player.input.shiftKeyDown; // Makes player continue to sneak after freecam is enabled.
                 MC.player.input = input;
             }
-            ((GameRendererAccessor)MC.gameRenderer).setRenderHand(FreecamConfig.SHOW_HAND.get());
+            ((GameRendererAccessor) MC.gameRenderer).setRenderHand(FreecamConfig.SHOW_HAND.get());
         }
     }
 
