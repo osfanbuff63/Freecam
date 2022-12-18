@@ -60,11 +60,13 @@ public class FreeCamera extends ClientPlayerEntity {
     @Override
     protected void checkFallDamage(double p_184231_1_, boolean p_184231_3_, BlockState p_184231_4_, BlockPos p_184231_5_) {
     }
+
     // Needed for hand swings to be shown in freecam since the player is replaced by FreeCamera in HeldItemRenderer.renderItem()
     @Override
     public float getAttackAnim(float tickDelta) {
         return MC.player.getAttackAnim(tickDelta);
     }
+
     // Needed for item use animations to be shown in freecam since the player is replaced by FreeCamera in HeldItemRenderer.renderItem()
     @Override
     public int getUseItemRemainingTicks() {
