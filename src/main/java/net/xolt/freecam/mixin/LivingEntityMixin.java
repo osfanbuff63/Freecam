@@ -11,7 +11,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(LivingEntity.class)
 public class LivingEntityMixin {
 
-
     // Allows for the horizontal speed of creative flight to be configured separately from vertical speed.
     @Inject(method = "getFrictionInfluencedSpeed", at = @At("HEAD"), cancellable = true)
     private void onGetMovementSpeed(CallbackInfoReturnable<Float> cir) {

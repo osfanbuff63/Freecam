@@ -59,11 +59,13 @@ public class FreeCamera extends LocalPlayer {
     @Override
     protected void checkFallDamage(double p_20990_, boolean p_20991_, BlockState p_20992_, BlockPos p_20993_) {
     }
+
     // Needed for hand swings to be shown in freecam since the player is replaced by FreeCamera in HeldItemRenderer.renderItem()
     @Override
     public float getAttackAnim(float tickDelta) {
         return MC.player.getAttackAnim(tickDelta);
     }
+
     // Needed for item use animations to be shown in freecam since the player is replaced by FreeCamera in HeldItemRenderer.renderItem()
     @Override
     public int getUseItemRemainingTicks() {
