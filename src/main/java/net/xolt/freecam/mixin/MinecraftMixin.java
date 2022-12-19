@@ -25,6 +25,11 @@ public class MinecraftMixin {
                 MC.player.input = input;
             }
             ((GameRendererAccessor) MC.gameRenderer).setRenderHand(FreecamConfig.SHOW_HAND.get());
+
+            if (Freecam.disableNextTick()) {
+                Freecam.toggle();
+                Freecam.setDisableNextTick(false);
+            }
         }
     }
 
