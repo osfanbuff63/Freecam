@@ -182,7 +182,7 @@ public class Freecam {
     }
 
     public static void resetCamera(int keyCode) {
-        if (tripodEnabled && activeTripod == keyCode && freeCamera != null) {
+        if (tripodEnabled && activeTripod != null && activeTripod == keyCode && freeCamera != null) {
             freeCamera.copyPosition(MC.player);
         } else {
             getTripodsForDimension().put(keyCode, null);
