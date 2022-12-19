@@ -32,6 +32,7 @@ public class Freecam {
     private static boolean freecamEnabled = false;
     private static boolean tripodEnabled = false;
     private static boolean playerControlEnabled = false;
+    private static boolean disableNextTick = false;
     private static Integer activeTripod = null;
     private static FreeCamera freeCamera;
     private static HashMap<Integer, FreecamPosition> overworld_tripods = new HashMap<>();
@@ -216,6 +217,14 @@ public class Freecam {
                 break;
         }
         return result;
+    }
+
+    public static boolean disableNextTick() {
+        return disableNextTick;
+    }
+
+    public static void setDisableNextTick(boolean damage) {
+        disableNextTick = damage;
     }
 
     public static boolean isEnabled() {
