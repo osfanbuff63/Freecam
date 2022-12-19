@@ -24,10 +24,8 @@ public class LocalPlayerMixin {
     // Disables freecam upon receiving damage if disableOnDamage is enabled.
     @Inject(method = "hurt", at = @At("HEAD"))
     private void onDamage(CallbackInfoReturnable<Boolean> cir) {
-        if (FreecamConfig.DISABLE_ON_DAMAGE.get() && this.equals(MC.player)) {
-            if (Freecam.isEnabled()) {
-                Freecam.toggle();
-            }
+        if (Freecam.isEnabled() && FreecamConfig.DISABLE_ON_DAMAGE.get() && this.equals(MC.player)) {
+            Freecam.setDisableNextTick(true);
         }
     }
 }
