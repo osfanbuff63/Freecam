@@ -12,6 +12,7 @@ import net.minecraft.potion.EffectInstance;
 import net.minecraft.util.MovementInputFromOptions;
 import net.minecraft.util.math.BlockPos;
 import net.xolt.freecam.Freecam;
+import net.minecraft.tags.FluidTags;
 import net.xolt.freecam.config.FreecamConfig;
 
 import java.util.UUID;
@@ -168,6 +169,17 @@ public class FreeCamera extends ClientPlayerEntity {
     public void setPose(Pose pose) {
         super.setPose(Pose.SWIMMING);
     }
+
+    // Prevents water submersion sounds from playing.
+    @Override
+    protected boolean updateIsUnderwater() {
+        this.wasUnderwater = this.isEyeInFluid(FluidTags.WATER);
+        return this.wasUnderwater;
+    }
+
+    // Prevents water submersion sounds from playing.
+    @Override
+    protected void doWaterSplashEffect() {}
 
     @Override
     public void aiStep() {

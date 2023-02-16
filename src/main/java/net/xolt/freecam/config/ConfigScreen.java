@@ -152,6 +152,14 @@ public class ConfigScreen extends Screen {
         showHand.setTooltip(MC.font.split(new TranslationTextComponent("text.freecam.configScreen.option.showHand.tooltip"), 200));
         this.optionsRowList.addBig(showHand);
 
+        BooleanOption showSubmersion = new BooleanOption(
+                "text.freecam.configScreen.option.showSubmersion",
+                unused -> FreecamConfig.SHOW_SUBMERSION.get(),
+                (unused, newValue) -> FreecamConfig.SHOW_SUBMERSION.set(newValue)
+        );
+        showSubmersion.setTooltip(MC.font.split(new TranslationTextComponent("text.freecam.configScreen.option.showSubmersion.tooltip"), 200));
+        this.optionsRowList.addBig(showSubmersion);
+
         BooleanOption notifyFreecam = new BooleanOption(
                 "text.freecam.configScreen.option.notifyFreecam",
                 unused -> FreecamConfig.NOTIFY_FREECAM.get(),
