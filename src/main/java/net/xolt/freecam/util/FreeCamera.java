@@ -6,6 +6,7 @@ import net.minecraft.client.player.KeyboardInput;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.protocol.Packet;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Pose;
@@ -168,6 +169,17 @@ public class FreeCamera extends LocalPlayer {
     public void setPose(Pose pose) {
         super.setPose(Pose.SWIMMING);
     }
+
+    // Prevents water submersion sounds from playing.
+    @Override
+    protected boolean updateIsUnderwater() {
+        this.wasUnderwater = this.isEyeInFluid(FluidTags.WATER);
+        return this.wasUnderwater;
+    }
+
+    // Prevents water submersion sounds from playing.
+    @Override
+    protected void doWaterSplashEffect() {}
 
     @Override
     public void aiStep() {

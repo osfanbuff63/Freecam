@@ -41,6 +41,8 @@
   "text.freecam.configScreen.option.showPlayer.tooltip": "Shows your player in its original position.",
   "text.freecam.configScreen.option.showHand": "Show Hand",
   "text.freecam.configScreen.option.showHand.tooltip": "Whether you can see your hand in freecam.",
+  "text.freecam.configScreen.option.showSubmersion": "Show Submersion Fog",
+  "text.freecam.configScreen.option.showSubmersion.tooltip": "Whether you see a fog overlay underwater, in lava, or powdered snow.",
   "text.freecam.configScreen.option.notifyFreecam": "Freecam Notifications",
   "text.freecam.configScreen.option.notifyFreecam.tooltip": "Notifies you when entering/exiting freecam.",
   "text.freecam.configScreen.option.notifyTripod": "Tripod Notifications",

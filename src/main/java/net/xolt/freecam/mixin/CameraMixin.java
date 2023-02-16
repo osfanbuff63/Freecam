@@ -3,12 +3,16 @@ package net.xolt.freecam.mixin;
 import net.minecraft.client.Camera;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.material.FogType;
+import net.xolt.freecam.Freecam;
+import net.xolt.freecam.config.FreecamConfig;
 import net.xolt.freecam.util.FreeCamera;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Camera.class)
 public class CameraMixin {
@@ -25,6 +29,14 @@ public class CameraMixin {
 
         if (newFocusedEntity instanceof FreeCamera || this.entity instanceof FreeCamera) {
             this.eyeHeightOld = this.eyeHeight = newFocusedEntity.getEyeHeight();
+        }
+    }
+
+    // Removes the submersion overlay when underwater, in lava, or powdered snow.
+    @Inject(method = "getFluidInCamera", at = @At("HEAD"), cancellable = true)
+    public void onGetSubmersionType(CallbackInfoReturnable<FogType> cir) {
+        if (Freecam.isEnabled() && !FreecamConfig.SHOW_SUBMERSION.get()) {
+            cir.setReturnValue(FogType.NONE);
         }
     }
 }
