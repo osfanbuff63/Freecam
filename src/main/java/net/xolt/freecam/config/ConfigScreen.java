@@ -52,6 +52,16 @@ public class ConfigScreen extends Screen {
         flightMode.setTooltip((mc) -> (value) -> MC.font.split(new TranslatableComponent("text.freecam.configScreen.option.flightMode.tooltip"), 200));
         this.optionsList.addBig(flightMode);
 
+        CycleOption<FreecamConfig.Perspective> perspective = CycleOption.create(
+                "text.freecam.configScreen.option.perspective",
+                FreecamConfig.Perspective.values(),
+                (option) -> new TranslatableComponent(option.getKey()),
+                (option) -> (FreecamConfig.Perspective) FreecamConfig.PERSPECTIVE.get(),
+                (pOptions, pOption, pValue) -> FreecamConfig.PERSPECTIVE.set(pValue)
+        );
+        flightMode.setTooltip((mc) -> (value) -> MC.font.split(new TranslatableComponent("text.freecam.configScreen.option.flightMode.tooltip"), 200));
+        this.optionsList.addBig(perspective);
+
         CycleOption<FreecamConfig.InteractionMode> interactionMode = CycleOption.create(
                 "text.freecam.configScreen.option.interactionMode",
                 FreecamConfig.InteractionMode.values(),
@@ -101,6 +111,14 @@ public class ConfigScreen extends Screen {
         );
         noClip.setTooltip((mc) -> (value) -> MC.font.split(new TranslatableComponent("text.freecam.configScreen.option.noClip.tooltip"), 200));
         this.optionsList.addBig(noClip);
+
+        CycleOption<Boolean> checkCollision = CycleOption.createOnOff(
+                "text.freecam.configScreen.option.checkCollision",
+                (option) -> FreecamConfig.CHECK_COLLISION.get(),
+                (pOptions, pOption, pValue) -> FreecamConfig.CHECK_COLLISION.set(pValue)
+        );
+        noClip.setTooltip((mc) -> (value) -> MC.font.split(new TranslatableComponent("text.freecam.configScreen.option.checkCollision.tooltip"), 200));
+        this.optionsList.addBig(checkCollision);
 
         CycleOption<Boolean> disableOnDamage = CycleOption.createOnOff(
                 "text.freecam.configScreen.option.disableOnDamage",
