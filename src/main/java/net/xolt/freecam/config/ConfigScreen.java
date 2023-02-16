@@ -117,7 +117,7 @@ public class ConfigScreen extends Screen {
                 (option) -> FreecamConfig.CHECK_COLLISION.get(),
                 (pOptions, pOption, pValue) -> FreecamConfig.CHECK_COLLISION.set(pValue)
         );
-        noClip.setTooltip((mc) -> (value) -> MC.font.split(new TranslatableComponent("text.freecam.configScreen.option.checkCollision.tooltip"), 200));
+        checkCollision.setTooltip((mc) -> (value) -> MC.font.split(new TranslatableComponent("text.freecam.configScreen.option.checkCollision.tooltip"), 200));
         this.optionsList.addBig(checkCollision);
 
         CycleOption<Boolean> disableOnDamage = CycleOption.createOnOff(
