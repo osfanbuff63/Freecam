@@ -52,6 +52,14 @@ public class ConfigScreen extends Screen {
         flightMode.setTooltip(MC.font.split(new TranslationTextComponent("text.freecam.configScreen.option.flightMode.tooltip"), 200));
         this.optionsRowList.addBig(flightMode);
 
+        IteratableOption perspective = new IteratableOption(
+                "text.freecam.configScreen.option.perspective",
+                (unused, newValue) -> FreecamConfig.PERSPECTIVE.set(FreecamConfig.Perspective.values()[(((FreecamConfig.Perspective) FreecamConfig.PERSPECTIVE.get()).ordinal() + newValue) % FreecamConfig.Perspective.values().length]),
+                (unused, option) -> new TranslationTextComponent("text.freecam.configScreen.option.perspective").append(": ").append(new TranslationTextComponent(((FreecamConfig.Perspective) FreecamConfig.PERSPECTIVE.get()).getKey()))
+        );
+        perspective.setTooltip(MC.font.split(new TranslationTextComponent("text.freecam.configScreen.option.perspective.tooltip"), 200));
+        this.optionsRowList.addBig(perspective);
+
         IteratableOption interactionMode = new IteratableOption(
                 "text.freecam.configScreen.option.interactionMode",
                 (unused, newValue) -> FreecamConfig.INTERACTION_MODE.set(FreecamConfig.InteractionMode.values()[(((FreecamConfig.InteractionMode) FreecamConfig.INTERACTION_MODE.get()).ordinal() + newValue) % FreecamConfig.InteractionMode.values().length]),
@@ -95,6 +103,14 @@ public class ConfigScreen extends Screen {
         );
         noClip.setTooltip(MC.font.split(new TranslationTextComponent("text.freecam.configScreen.option.noClip.tooltip"), 200));
         this.optionsRowList.addBig(noClip);
+
+        BooleanOption checkCollision = new BooleanOption(
+                "text.freecam.configScreen.option.checkCollision",
+                unused -> FreecamConfig.CHECK_COLLISION.get(),
+                (unused, newValue) -> FreecamConfig.CHECK_COLLISION.set(newValue)
+        );
+        checkCollision.setTooltip(MC.font.split(new TranslationTextComponent("text.freecam.configScreen.option.checkCollision.tooltip"), 200));
+        this.optionsRowList.addBig(checkCollision);
 
         BooleanOption disableOnDamage = new BooleanOption(
                 "text.freecam.configScreen.option.disableOnDamage",
