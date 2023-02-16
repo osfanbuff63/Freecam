@@ -49,6 +49,16 @@ public class ConfigScreen extends Screen {
         );
         this.optionsList.addBig(flightMode);
 
+        OptionInstance<FreecamConfig.Perspective> perspective = new OptionInstance<FreecamConfig.Perspective>(
+                "text.freecam.configScreen.option.perspective",
+                (value2) -> Tooltip.create(Component.translatable("text.freecam.configScreen.option.perspective.tooltip")),
+                (unused, option) -> Component.translatable(option.getKey()),
+                new OptionInstance.Enum<>(Arrays.asList(FreecamConfig.Perspective.values()), Codec.INT.xmap(FreecamConfig.Perspective::byId, FreecamConfig.Perspective::getId)),
+                (FreecamConfig.Perspective) FreecamConfig.PERSPECTIVE.get(),
+                (newValue) -> FreecamConfig.PERSPECTIVE.set(newValue)
+        );
+        this.optionsList.addBig(perspective);
+
         OptionInstance<FreecamConfig.InteractionMode> interactionMode = new OptionInstance<FreecamConfig.InteractionMode>(
                 "text.freecam.configScreen.option.interactionMode",
                 (value) -> Tooltip.create(Component.translatable("text.freecam.configScreen.option.interactionMode.tooltip")),
@@ -92,6 +102,14 @@ public class ConfigScreen extends Screen {
                 (value) -> FreecamConfig.NO_CLIP.set(value)
         );
         this.optionsList.addBig(noClip);
+
+        OptionInstance<Boolean> checkCollision = OptionInstance.createBoolean(
+                "text.freecam.configScreen.option.checkCollision",
+                (value) -> Tooltip.create(Component.translatable("text.freecam.configScreen.option.checkCollision.tooltip")),
+                FreecamConfig.CHECK_COLLISION.get(),
+                (value) -> FreecamConfig.CHECK_COLLISION.set(value)
+        );
+        this.optionsList.addBig(checkCollision);
 
         OptionInstance<Boolean> disableOnDamage = OptionInstance.createBoolean(
                 "text.freecam.configScreen.option.disableOnDamage",

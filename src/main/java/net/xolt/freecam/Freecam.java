@@ -148,6 +148,7 @@ public class Freecam {
     private static void onEnableFreecam() {
         onEnable();
         freeCamera = new FreeCamera(-420);
+        freeCamera.applyPerspective((FreecamConfig.Perspective) FreecamConfig.PERSPECTIVE.get(), FreecamConfig.CHECK_COLLISION.get() || !(FreecamConfig.NO_CLIP.get() && canUseCheats()));
         freeCamera.spawn();
         MC.setCameraEntity(freeCamera);
 
@@ -190,7 +191,7 @@ public class Freecam {
     }
 
     public static void resetCamera(int keyCode) {
-        if (tripodEnabled && activeTripod == keyCode && freeCamera != null) {
+        if (tripodEnabled && activeTripod != null && activeTripod == keyCode && freeCamera != null) {
             freeCamera.copyPosition(MC.player);
         } else {
             getTripodsForDimension().put(keyCode, null);
