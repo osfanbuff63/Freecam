@@ -26,15 +26,15 @@ public class FreeCamera extends LocalPlayer {
     };
 
     public FreeCamera(int id) {
-        this(id, new FreecamPosition(MC.player));
+        this(id, FreecamPosition.getSwimmingPosition(MC.player));
     }
 
     public FreeCamera(int id, FreecamPosition position) {
         super(MC, MC.level, CONNECTION, MC.player.getStats(), MC.player.getRecipeBook(), false, false);
 
         setId(id);
-        moveTo(position.x, position.y, position.z, position.yaw, position.pitch);
         super.setPose(position.pose);
+        moveTo(position.x, position.y, position.z, position.yaw, position.pitch);
         xBob = getXRot();
         yBob = getYRot();
         xBobO = getXRot(); // Prevents camera from rotating upon entering freecam.
@@ -100,12 +100,10 @@ public class FreeCamera extends LocalPlayer {
         return FreecamConfig.NO_CLIP.get() ? PushReaction.IGNORE : PushReaction.NORMAL;
     }
 
-    // Prevents pose from changing when clipping through blocks.
+    // Ensures that the FreeCamera is always in the swimming pose.
     @Override
     public void setPose(Pose pose) {
-        if (pose.equals(Pose.STANDING) || (pose.equals((Pose.CROUCHING)) && !getPose().equals(Pose.STANDING))) {
-            super.setPose(pose);
-        }
+        super.setPose(Pose.SWIMMING);
     }
 
     @Override
