@@ -27,8 +27,8 @@ public class FreecamPosition {
         setRotation(entity.getYRot(), entity.getXRot());
     }
 
-    // From net.minecraft.client.render.Camera.setRotation
-    protected void setRotation(float yaw, float pitch) {
+    // From net.minecraft.client.Camera.setRotation
+    public void setRotation(float yaw, float pitch) {
         this.pitch = pitch;
         this.yaw = yaw;
         rotation.rotationYXZ(-yaw * ((float) Math.PI / 180), pitch * ((float) Math.PI / 180), 0.0f);
@@ -38,7 +38,7 @@ public class FreecamPosition {
     }
 
     // Invert the rotation so that it is mirrored
-    // As-per net.minecraft.client.render.Camera.update
+    // As-per net.minecraft.client.Camera.setup
     public void mirrorRotation() {
         setRotation(yaw + 180.0F, -pitch);
     }
@@ -48,18 +48,8 @@ public class FreecamPosition {
         move(distance, 0, 0);
     }
 
-    // Move up/down relative to the current rotation
-    public void moveUp(double distance) {
-        move(0, distance, 0);
-    }
-
-    // Move right/left relative to the current rotation
-    public void moveRight(double distance) {
-        move(0, 0, distance);
-    }
-
     // Move relative to current rotation
-    // From net.minecraft.client.render.Camera.moveBy
+    // From net.minecraft.client.Camera.move
     public void move(double fwd, double up, double right) {
         x += (double) horizontalPlane.x() * fwd
                 + (double) verticalPlane.x()   * up

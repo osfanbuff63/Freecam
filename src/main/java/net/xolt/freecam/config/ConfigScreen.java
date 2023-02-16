@@ -151,6 +151,14 @@ public class ConfigScreen extends Screen {
         );
         this.optionsList.addBig(showHand);
 
+        OptionInstance<Boolean> showSubmersion = OptionInstance.createBoolean(
+                "text.freecam.configScreen.option.showSubmersion",
+                (value) -> Tooltip.create(Component.translatable("text.freecam.configScreen.option.showSubmersion.tooltip")),
+                FreecamConfig.SHOW_SUBMERSION.get(),
+                (value) -> FreecamConfig.SHOW_SUBMERSION.set(value)
+        );
+        this.optionsList.addBig(showSubmersion);
+
         OptionInstance<Boolean> notifyFreecam = OptionInstance.createBoolean(
                 "text.freecam.configScreen.option.notifyFreecam",
                 (value) -> Tooltip.create(Component.translatable("text.freecam.configScreen.option.notifyFreecam.tooltip")),
