@@ -7,20 +7,21 @@
   "mixins": [
   ],
   "client": [
+    "CameraMixin",
+    "ClientPlayerEntityMixin",
     "ClientPlayNetHandlerMixin",
-    "NetworkManagerMixin",
     "EntityMixin",
     "EntityRenderDispatcherMixin",
+    "FirstPersonRendererMixin",
     "GameRendererAccessor",
     "GameRendererMixin",
+    "GameSettingsMixin",
     "IngameGuiMixin",
-    "FirstPersonRendererMixin",
-    "WorldRendererMixin",
     "LivingEntityMixin",
-    "ClientPlayerEntityMixin",
     "MinecraftMixin",
+    "NetworkManagerMixin",
     "PlayerControllerMixin",
-    "GameSettingsMixin"
+    "WorldRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

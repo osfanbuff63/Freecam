@@ -7,10 +7,12 @@ public class FreecamConfig {
     public static final ForgeConfigSpec SPEC;
 
     public static final ForgeConfigSpec.EnumValue FLIGHT_MODE;
+    public static final ForgeConfigSpec.EnumValue PERSPECTIVE;
     public static final ForgeConfigSpec.EnumValue INTERACTION_MODE;
     public static final ForgeConfigSpec.DoubleValue HORIZONTAL_SPEED;
     public static final ForgeConfigSpec.DoubleValue VERTICAL_SPEED;
     public static final ForgeConfigSpec.BooleanValue NO_CLIP;
+    public static final ForgeConfigSpec.BooleanValue CHECK_COLLISION;
     public static final ForgeConfigSpec.BooleanValue FREEZE_PLAYER;
     public static final ForgeConfigSpec.BooleanValue ALLOW_INTERACT;
     public static final ForgeConfigSpec.BooleanValue DISABLE_ON_DAMAGE;
@@ -25,6 +27,9 @@ public class FreecamConfig {
         FLIGHT_MODE = BUILDER.comment("The type of flight used by freecam.")
                 .defineEnum("Flight Mode", FlightMode.DEFAULT);
 
+        PERSPECTIVE = BUILDER.comment("The initial perspective of the camera.")
+                .defineEnum("Initial Perspective", Perspective.INSIDE);
+
         INTERACTION_MODE = BUILDER.comment("The source of block/entity interactions.")
                 .defineEnum("Interaction Mode", InteractionMode.CAMERA);
 
@@ -36,6 +41,9 @@ public class FreecamConfig {
 
         NO_CLIP = BUILDER.comment("Whether you can travel through blocks in freecam.")
                 .define("No Clip", false);
+
+        CHECK_COLLISION = BUILDER.comment("Whether to check for initial collision, even when using No Clip.")
+                .define("Always Check Collision", false);
 
         DISABLE_ON_DAMAGE = BUILDER.comment("Disables freecam when damage is received.")
                 .define("Disable on Damage", true);
@@ -84,6 +92,23 @@ public class FreecamConfig {
         private final String key;
 
         InteractionMode(String name) {
+            this.key = name;
+        }
+
+        public String getKey() {
+            return key;
+        }
+    }
+
+    public enum Perspective {
+        FIRST_PERSON("text.freecam.configScreen.option.perspective.firstPerson"),
+        THIRD_PERSON("text.freecam.configScreen.option.perspective.thirdPerson"),
+        THIRD_PERSON_MIRROR("text.freecam.configScreen.option.perspective.thirdPersonMirror"),
+        INSIDE("text.freecam.configScreen.option.perspective.inside");
+
+        private final String key;
+
+        Perspective(String name) {
             this.key = name;
         }
 
