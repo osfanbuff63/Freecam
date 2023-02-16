@@ -18,6 +18,7 @@ public class FreecamConfig {
     public static final ForgeConfigSpec.BooleanValue DISABLE_ON_DAMAGE;
     public static final ForgeConfigSpec.BooleanValue SHOW_PLAYER;
     public static final ForgeConfigSpec.BooleanValue SHOW_HAND;
+    public static final ForgeConfigSpec.BooleanValue SHOW_SUBMERSION;
     public static final ForgeConfigSpec.BooleanValue NOTIFY_FREECAM;
     public static final ForgeConfigSpec.BooleanValue NOTIFY_TRIPOD;
 
@@ -59,6 +60,9 @@ public class FreecamConfig {
 
         SHOW_HAND = BUILDER.comment("Whether you can see your hand in freecam.")
                 .define("Show Hand", false);
+
+        SHOW_SUBMERSION = BUILDER.comment("Whether you see a fog overlay underwater, in lava, or powdered snow.")
+                .define("Show Submersion Fog", false);
 
         NOTIFY_FREECAM = BUILDER.comment("Notifies you when entering/exiting freecam.")
                 .define("Freecam Notifications", true);

@@ -33,6 +33,8 @@
   "text.freecam.configScreen.option.showPlayer.tooltip": "在原来的位置上显示你的玩家。",
   "text.freecam.configScreen.option.showHand": "显示手",
   "text.freecam.configScreen.option.showHand.tooltip": "当你处于自由视角是否可以看到你的手。",
+  "text.freecam.configScreen.option.showSubmersion": "显示淹没雾",
+  "text.freecam.configScreen.option.showSubmersion.tooltip": "您是否看到雾覆盖在水下、熔岩和粉状雪中。",
   "text.freecam.configScreen.option.notifyFreecam": "自由视角通知",
   "text.freecam.configScreen.option.notifyFreecam.tooltip": "进入/退出自由视角时通知你。",
   "text.freecam.configScreen.option.notifyTripod": "三脚架通知",

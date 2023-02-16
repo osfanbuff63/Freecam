@@ -160,6 +160,14 @@ public class ConfigScreen extends Screen {
         showHand.setTooltip((mc) -> (value) -> MC.font.split(new TranslatableComponent("text.freecam.configScreen.option.showHand.tooltip"), 200));
         this.optionsList.addBig(showHand);
 
+        CycleOption<Boolean> showSubmersion = CycleOption.createOnOff(
+                "text.freecam.configScreen.option.showSubmersion",
+                (option) -> FreecamConfig.SHOW_SUBMERSION.get(),
+                (pOptions, pOption, pValue) -> FreecamConfig.SHOW_SUBMERSION.set(pValue)
+        );
+        showSubmersion.setTooltip((mc) -> (value) -> MC.font.split(new TranslatableComponent("text.freecam.configScreen.option.showSubmersion.tooltip"), 200));
+        this.optionsList.addBig(showSubmersion);
+
         CycleOption<Boolean> notifyFreecam = CycleOption.createOnOff(
                 "text.freecam.configScreen.option.notifyFreecam",
                 (option) -> FreecamConfig.NOTIFY_FREECAM.get(),
