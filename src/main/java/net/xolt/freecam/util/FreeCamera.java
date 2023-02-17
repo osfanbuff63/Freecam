@@ -171,6 +171,12 @@ public class FreeCamera extends LocalPlayer {
         super.setPose(Pose.SWIMMING);
     }
 
+    // Prevents slow down due to being in swimming pose. (Fixes being unable to sprint)
+    @Override
+    public boolean isMovingSlowly() {
+        return false;
+    }
+
     // Prevents water submersion sounds from playing.
     @Override
     protected boolean updateIsUnderwater() {
